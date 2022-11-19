@@ -1,0 +1,78 @@
+/* FONT DE TITULOS: FREDOKA ONE*/
+@import url('https://fonts.googleapis.com/css?family=Fredoka+One');
+/* FONT DE BODY: RUBIK*/
+@import url('https://fonts.googleapis.com/css?family=Rubik');
+
+/* Contenedor de textos y logo */
+.container {
+    height: 100%;
+    width: auto;   
+}
+
+/* Formato del título de la página */
+#aguacapi {
+    margin-top: 5%;
+    font-size: 120px;
+    font-weight: 600;
+    font-family: 'Fredoka One', sans-serif;
+    background-image: linear-gradient(to left,
+   #00eded, #93bde6,#abc6fd,#f89875 , #00eded);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 300%;
+    background-position: -100%;
+    animation: animatedText 12s infinite alternate-reverse;
+    
+}
+
+/* Gradient animation */
+@keyframes animatedText
+{
+    to{
+        background-position: 100%;
+    }
+}
+
+/* Formato de imagen de logo */
+#logo {
+    width: 25%;
+    height: 20%;
+}
+
+#eslogan {
+    font-size: 30px;
+    font-family: 'Fredoka One', sans-serif;
+    color: #94c6f8;
+    text-shadow: 1px 1px 2px #04010e;
+    text-align: center;
+}
+
+/*Botones de login y signup*/
+.btn-primary {
+    font-size: 20px;
+    font-family: 'Fredoka One', sans-serif;
+    border-radius: 10px;
+    width: 180px;
+    height: 50px;
+    margin: 10px;
+    box-shadow: 0 0 2px #04010e;
+}
+
+/* Formato del modal */
+.modal-header {
+    background-color: #f8d294;
+    color: #04010e;
+    font-size: 30px;
+    font-family: 'Fredoka One', sans-serif;
+    text-align: center;
+}
+
+.modal-body {
+    color: #4d4c4c;
+    font-size: 17px;
+    font-family: 'Rubik', sans-serif;
+    text-align: center;
+}
+
+

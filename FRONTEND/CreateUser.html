@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CreateUser</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="./STYLES/Login.css">
+    <link rel="stylesheet" href="./STYLES/Own.css">
+
+    	<!--FONTS -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fredoka+One">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik">
+
+	<style>
+		#Register {
+			font-family: 'Fredoka One', sans-serif;
+			font-size: 40px;
+		}
+
+		body {
+			background-color: #d1e3ff;
+			font-family: 'Rubik', sans-serif;
+		}
+	</style>
+  </head>
+  <!--Background image-->
+  <body>
+      
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    
+    <!-- Container que nos permite centrar los forms -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section"></h2>
+            </div>
+        </div>
+        <!-- Div donde vive el form -->
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-5">
+                <div class="wrap">                    <!-- Aqui empieza el titulo y los campos a llenar -->
+                    <div class="login-wrap p-4 p-md-5">
+                      <!-- Div del titulo -->
+                  <div class="d-flex">
+                      <div class="w-100">
+                          <p id="Register" class="mb-4">Crear cuenta</p>
+                          <hr>
+                          <br>
+                      </div>
+                  </div>
+                  <!-- Comienza el form -->
+                  <form  class="was-validated">
+                    <div class="form-group">
+                        <input type="text" id="Nombre" class="form-control" placeholder="Nombre" required minlength="3"><br>
+                        <input type="text" id="Apellido" class="form-control" placeholder="Apellido" required minlength="3"><br>
+                        <input type="email" id="Correo" class="form-control" placeholder="Correo" name="email" required minlength="10"><br>
+                        <input type="pass" id="Contrasenia" class="form-control" placeholder="Contraseña " name="contra" required><br>
+                        <input type="pass" id="Contrasenia2" class="form-control" placeholder="Confirmar contraseña" name="contra2" required><br>
+                        <input type="date" id="Fecha" class="form-control" rows="4" placeholder="" required max="2022-11-20" value=""><br>
+                        <label><input type="radio" id="sexMC" name="test" value="Mujer" checked required> Mujer</label><br>
+                        <label><input type="radio" id="sexHC" name="test" value="Hombre" required> Hombre</label><br>
+                        <div class="w-50 text-left">
+                          <div class="form-group d-md-flex">
+
+                          <label class="checkbox-wrap checkbox-primary mb-0"> Give us your data
+                          <input type="checkbox" checked required>
+                          <span class="checkmark"></span>
+                          </label>
+                          </div>
+                        </div>
+                        <button type="button" class="form-control btn btn-primary rounded submit px-3" onclick="alert('Registro')"><i class="fa fa-plus"></i> Registrarse</button>
+                    </div>
+                </form>
+
+                <p class="text-center">¿Ya tienes cuenta?  <a href="Login.html">Inicia sesión</a></p>
+                <a href="Home.html">TempHome</a></p>
+            </div>
+          </div>
+            </div>
+        </div>
+    </div>
+  
+</div>
+    
+  </body>
+</html>
