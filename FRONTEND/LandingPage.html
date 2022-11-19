@@ -17,30 +17,106 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body id="fondo">
-    <!-- Navbar -->
 
+    <!-- Navbar -->
 <nav class="nav justify-content-left">
     <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link" href="#">Hola</a>
+          <a class="nav-image" href="LandingPage.html"><img id="logo" src="./IMAGES/logocircle.png"></a>
+          <hr style="border-width: 2px">
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Link 2</a>
+            <a class="nav-link" href="Charts.html"><i class="fa fa-bar-chart"></i> | Estadísticas</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Link 3</a>
-         </li>
+            <a class="nav-link" href="UserRanking.html"><i class="fa fa-group"></i> | User ranking</a>
+        </li>
          <li class="nav-item" id="CuentaAjustes">
-            <a class="nav-link" href="#">Cuenta</a>
+            <a class="nav-link" href="EditUser.html"><i class="fa fa-user"></i> | Cuenta</a>
          </li>
          <li class="nav-item" id="CerrarSesion">
-            <a class="nav-link" href="#">Cerrar sesión</a>
+            <a class="nav-link" href="#" data-toggle="modal" data-target="#modalCerrarSesion"><i class="fa fa-sign-out"></i> | Cerrar sesión</a>
          </li>
     </ul>
 </nav>
     
 <div class="divContent">
-    <p>el texto ya no se pone atrás del navbar</p>
+  
+  <ul class="row mt-2">
+
+    <!-- DIV PADRE: media -->
+    <div id="userCard" class="media mt-2 mb-2">
+      <!-- DIV HIJO1: left-->
+        <div class="media-left align-self-center">
+            <img id="fotoUsuario" class="mr-4 ml-4 rounded-circle" src="https://randomuser.me/api/portraits/men/0.jpg">
+        </div>
+        <!-- DIV HIJO2: body-->
+        <div class="media-body ml-2">
+            <p class="idTitle mt-3 mb-1" style="text-align:center">¡Bienvenid@, John!<p>
+              <hr style="width: 70%">
+            <p style="text-align:center"><b>Formas parte de AguaCapi desde:</b> 2022-11-19</p>
+            <p><b>Fecha de nacimiento:</b> 01-01-2001</p>
+            <p><b>Sexo:</b> Hombre</p>
+            <a id="EditarCuentaBoton" class="btn btn-secondary" href="EditUser.html" role="button">Editar cuenta</a>
+            <a id="ConsumoBoton" class="btn btn-secondary" href="#" role="button">Añadir consumo</a>
+            <p></p>
+            <br>
+        </div>
+    </div>
+  
+  </ul>
+
+  <ul class="row mt-2">
+    <!-- DIV PADRE: media -->
+    <div id="userGoal" class="media col-4 mt-3 mb-2">
+      <!-- DIV HIJO1: left-->
+        <div class="media-body align-self-center">
+          <p class="idTitle">TU META DIARIA: </p>
+          <p id="goalDigit">2000 ml</p>
+
+        </div>
+    </div>
+
+    <div id="userGoal" class="media col-4 mt-3 mb-2 ml-5">
+      <!-- DIV HIJO1: left-->
+        <div class="media-body align-self-center">
+          <p class="idTitle">HAS CONSUMIDO:</p>
+          <p id="goalDigit">1239 ml</p>
+
+        </div>
+    </div>
+  </ul>
+
+
+  <!-- FALTA LISTADO DE BEBIDAS Y AÑADIR BEBIDA -->
+
+
+  <!-- FALTA MODAL DE AÑADIR CONSUMO -->
+
+</div>
+
+
+<!-- MODAL DE CERRAR SESION -->
+<div class="modal fade" id="modalCerrarSesion" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">¿Salir?</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          Confirma cierre de sesión:
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="Home.html"><button class="btn btn-danger">Cerrar sesión</button></a>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
 </div>
 
       
