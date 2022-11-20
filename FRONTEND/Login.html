@@ -64,32 +64,31 @@
 			      	</div>
 
 					<!-- Comienza el form -->
-						<form action="#" class="signin-form">
+					<form action="#" class="signin-form">
 			      		<div class="form-group mt-3">
-			      			<input id="LoginUsername"type="text" class="form-control" required minlength="3">
+			      			<input id="LoginUsername"type="email" class="form-control" required minlength="3">
 			      			<label class="form-control-placeholder" for="username">Correo</label>
 			      		</div>
-		            <div class="form-group">
-		              <input id="LoginPassword" type="password" class="form-control" required minlength="10">
-		              <label class="form-control-placeholder" for="password">Contraseña</label>
-		              <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-		            </div>
-		            <div class="form-group">
-		            	<button type="submit" class="form-control btn btn-primary rounded submit px-3" onclick="alert('Login')"><i class="fa fa-sign-in"></i> Iniciar sesión</button>
-		            </div>
-		            
-		          </form>
-		          <p class="text-center">¿Todavía no tienes cuenta?  <a href="CreateUser.html">Regístrate</a></p>
-				  <a href="Home.html">TempHome</a><br>
-				  <a href="LandingPage.html">Land</a><br>
-				  <a href="Admin.html">Soy Admin</a></p>
+		            	<div class="form-group">
+							<input id="LoginPassword" type="password" class="form-control" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Debe contener al menos 6 caracteres e incluir: mayúsculas, minúsculas, números">
+							<label class="form-control-placeholder" for="password">Contraseña</label>
+							<span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+		            	</div>
+		            	<div class="form-group">
+		            		<button type="submit" class="form-control btn btn-primary rounded submit px-3" onclick="alert('Login')"><i class="fa fa-sign-in"></i> Iniciar sesión</button>
+						</div>
+		        	</form>
+						<p class="text-center">¿Todavía no tienes cuenta?  <a href="CreateUser.html">Regístrate</a></p>
+						<a href="Home.html">TempHome</a><br>
+						<a href="LandingPage.html">Land</a><br>
+						<a href="Admin.html">Soy Admin</a></p>
 
-		        </div>
-		      </div>
-				</div>
+		        	</div>
+		      			</div>
+					</div>
 			</div>
 		</div>
       
-  </div>
+  	</div>
   </body>
 </html>

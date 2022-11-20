@@ -58,26 +58,44 @@
                       </div>
                   </div>
                   <!-- Comienza el form -->
-                  <form  class="was-validated">
+                  <form class="was-validated" oninput='p2.setCustomValidity(p2.value != p1.value ? "Passwords do not match." : "")' >
                     <div class="form-group">
                         <input type="text" id="Nombre" class="form-control" placeholder="Nombre" required minlength="3"><br>
                         <input type="text" id="Apellido" class="form-control" placeholder="Apellido" required minlength="3"><br>
-                        <input type="email" id="Correo" class="form-control" placeholder="Correo" name="email" required minlength="10"><br>
-                        <input type="pass" id="Contrasenia" class="form-control" placeholder="Contraseña " name="contra" required><br>
-                        <input type="pass" id="Contrasenia2" class="form-control" placeholder="Confirmar contraseña" name="contra2" required><br>
+                        <input type="email" id="Correo" class="form-control" placeholder="Correo" name="email" required><br>
+                        <input type="password" id="Contrasenia" class="form-control" placeholder="Contraseña " name="contra" required
+                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Debe contener al menos 6 caracteres e incluir: mayúsculas, minúsculas, números" name="p1"><br>
+                        <input type="password" id="Contrasenia2" class="form-control" placeholder="Confirmar contraseña" name="contra2" required
+                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Debe contener al menos 6 caracteres e incluir: mayúsculas, minúsculas, números" name="p2"><br>
                         <input type="date" id="Fecha" class="form-control" rows="4" placeholder="" required max="2022-11-20" value=""><br>
+                        <label>Actividad física: </label>
+                        <select>
+                            <option value="1">Baja</option>
+                            <option value="2">Media</option>
+                            <option value="3">Alta</option>
+                        </select><br>
+                        <label>Región:</label>
+                        <select>
+                          <option value="1">Fría</option>
+                          <option value="2">Templada</option>
+                          <option value="3">Calurosa</option>
+                        </select><br>
+                        <input type="number" id="Peso" class="form-control" placeholder="Peso (kg)" required min="20"><br>
+                        <input type="number" id="Estatura" class="form-control" placeholder="Estatura (cm)" required min="70"><br>
+
                         <label><input type="radio" id="sexMC" name="test" value="Mujer" checked required> Mujer</label><br>
                         <label><input type="radio" id="sexHC" name="test" value="Hombre" required> Hombre</label><br>
+                        
                         <div class="w-50 text-left">
                           <div class="form-group d-md-flex">
-
-                          <label class="checkbox-wrap checkbox-primary mb-0"> Give us your data
-                          <input type="checkbox" checked required>
-                          <span class="checkmark"></span>
-                          </label>
+                            <label class="checkbox-wrap checkbox-primary mb-0"> Give us your data
+                            <input type="checkbox" checked required>
+                            <span class="checkmark"></span>
+                            </label>
                           </div>
                         </div>
-                        <button type="button" class="form-control btn btn-primary rounded submit px-3" onclick="alert('Registro')"><i class="fa fa-plus"></i> Registrarse</button>
+                        
+                        <button type="button" class="form-control btn btn-primary rounded submit px-3" ><i class="fa fa-plus"></i> Registrarse</button>
                     </div>
                 </form>
 

@@ -59,9 +59,12 @@
               <hr style="width: 70%">
             <p style="text-align:center"><b>Formas parte de AguaCapi desde:</b> 2022-11-19</p>
             <p><b>Fecha de nacimiento:</b> 01-01-2001</p>
+            <p><b>Región:</b> fría</p>
+            <p><b>Estatura:</b> 167 cm</p>
             <p><b>Sexo:</b> Mujer</p>
             <a id="EditarCuentaBoton" class="btn btn-secondary" href="EditUser.html" role="button"><i class="fa fa-cog"></i> | Editar cuenta</a>
             <a id="ConsumoBoton" class="btn btn-secondary" href="#" data-toggle="modal" data-target="#modalAñadirConsumo" role="button"><i class="fa fa-plus-square"></i> | Añadir consumo</a>
+            <a id="MetaBoton" class="btn btn-secondary" href="#" data-toggle="modal" data-target="#modalFijarMeta" role="button"><i class="fa fa-plus-square"></i> | Fijar nueva meta</a>
             <p></p>
             <br>
         </div>
@@ -143,6 +146,65 @@
   </div>
 
 </div>
+
+<!-- MODAL FIJAR META -->
+<div class="modal fade" id="modalFijarMeta" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Actualizar meta de hidratación</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row mt-2">
+            <div class="col-6" style="align-self: center;">
+              <a name="" id="" class="btn btn-info" href="#" data-toggle="modal" data-target="#modalMetaPropia" role="button">Establecer meta propia</a>
+            </div>
+            <div class="col-6" style="align-self: center;">
+              <a name="" id="" class="btn btn-info" href="#" role="button" onclick="alert('Nueva meta calculada, revisar perfil!')">Calcular de acuerdo a mis datos</a>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: FIJAR META PROPIA-->
+<div class="modal fade" id="modalMetaPropia" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Fijar meta propia</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="form-group">
+            <label>Ingresa tu meta (ml):</label><br>
+            <input class="number" placeholder="E.j. 2100">
+            <br>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button href="LandingPage.html" type="button" class="btn btn-success" data-dismiss="modal" onclick="alert('Meta actualizada')">Registrar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 <!-- MODAL AÑADIR CONSUMO -->
 <div class="modal fade" id="modalAñadirConsumo" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">

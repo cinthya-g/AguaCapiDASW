@@ -64,6 +64,20 @@
                         <input type="pass" id="Contrasenia" class="form-control" placeholder="Contraseña " name="contra" required><br>
                         <input type="pass" id="Contrasenia2" class="form-control" placeholder="Confirmar contraseña" name="contra2" required><br>
                         <input type="date" id="Fecha" class="form-control" rows="4" placeholder="" required max="2022-11-20" value=""><br>
+                        <label>Actividad física: </label>
+                        <select>
+                            <option value="1">Baja</option>
+                            <option value="2">Media</option>
+                            <option value="3">Alta</option>
+                        </select><br>
+                        <label>Región:</label>
+                        <select>
+                          <option value="1">Fría</option>
+                          <option value="2">Templada</option>
+                          <option value="3">Calurosa</option>
+                        </select><br>
+                        <input type="number" id="Peso" class="form-control" placeholder="Peso (kg)" required min="20"><br>
+                        <input type="number" id="Estatura" class="form-control" placeholder="Estatura (cm)" required min="70"><br>
                         <label><input type="radio" id="sexMC" name="test" value="Mujer" checked required> Mujer</label><br>
                         <label><input type="radio" id="sexHC" name="test" value="Hombre" required> Hombre</label><br>
                         <button type="button" class="btn btn-primary mr-auto" onclick="alert('Edited')" ><i class="fa fa-edit"></i> Guardar cambios</button>

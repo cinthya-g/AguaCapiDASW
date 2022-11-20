@@ -104,7 +104,7 @@ body {
     
 }
 
-#EditarCuentaBoton, #ConsumoBoton {
+#EditarCuentaBoton, #ConsumoBoton, #MetaBoton {
     background-color: #abc6fd;
     color: #1f466d;
     border: none;
@@ -112,7 +112,7 @@ body {
     
 }
 
-#EditarCuentaBoton:hover, #ConsumoBoton:hover {
+#EditarCuentaBoton:hover, #ConsumoBoton:hover, #MetaBoton:hover{
     background-color: #1f466d;
     color: #abc6fd;
     border: none;
