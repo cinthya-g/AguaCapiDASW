@@ -65,6 +65,21 @@
         </div>
         <div style="width: 50%; float: left; display: inline-block;">
             <div class="sectionTitle"><h1>Usuarios registrados</h1></div>
+            <!-- Insertar barra de búsqueda -->    
+    <div class="container">
+      <div class="row mt-4">
+          <div class="col-8"> <!-- Largo de la barra de búsqueda en cols -->
+              <div class="form-group">
+                  <input id="barraBusqueda" type="text" name="search" class="form-control" placeholder="nombre de usuario a buscar"
+                      aria-describedby="helpId">
+                  <small id="helpId" class="text-muted">Buscar usuario</small>
+              </div>
+          </div>
+          <div class="col-4">
+              <button type="button" class="btn btn-primary" href="#" onclick="filtrarPorNombre()">Buscar</button>
+          </div>
+      </div>
+
             <div class="media col-12 mb-2">
                 <div class="media-left mb-1 mt-1 mr-1"> <img src="./IMAGES/randImg24.jpeg" class="rounded-circle" alt=""></div>
                 <div class="media-body">

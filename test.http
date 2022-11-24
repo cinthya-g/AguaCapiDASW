@@ -1,0 +1,66 @@
+### CREAR USUARIO
+POST http://localhost:3000/api/users
+content-type: application/json
+
+{
+    "Nombre": "Gupilio",
+    "Apellido": "Gopez",
+    "Correo": "correo@email.com",
+    "Contrasenia": "wenas",
+    "Date": "2016-01-01",
+    "Sexo": "M",
+    "UID": 1
+}
+### CREAR USUARIO FUNCIONA
+POST http://localhost:3000/api/users
+content-type: application/json
+
+{
+    "Nombre": "Ker",
+    "Apellido": "miquelajshfstdsf",
+    "Correo": "ker@email.com",
+    "Contrasenia": "784kf",
+    "Date": "1999-01-01",
+    "Sexo": "H",
+    "UID": 2
+}
+
+### CREAR USUARIO FUNCIONA
+POST http://localhost:3000/api/users
+content-type: application/json
+
+{
+    "Nombre": "Sontia",
+    "Apellido": "Gonzalez",
+    "Correo": "cinthya@email.com",
+    "Contrasenia": "jj387f",
+    "Date": "2002-03-02",
+    "Sexo": "M",
+    "UID": 3
+}
+
+### CREAR BEBIDA
+POST http://localhost:3000/api/liquids
+content-type: application/json
+
+{
+    "Nombre": "Wakardi",
+    "Tamanio": 750,
+    "URL": "https://randomuser.me/api/portraits/women/20.jpg",
+    "IDPertenenciaUsuario": 1
+}
+
+### ELIMINAR USUARIO
+DELETE http://localhost:3000/api/users
+content-type: application/json
+
+{
+    "Nombre": "Gupilio",
+    "Apellido": "Gopez",
+    "Correo": "correo@email.com",
+    "Contrasenia": "wenas",
+    "Date": "2016-01-01",
+    "Sexo": "M",
+    "UID": 1,
+    "_id": "637f7f87ca4acd86bfe77369"
+}
