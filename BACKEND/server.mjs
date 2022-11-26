@@ -123,43 +123,43 @@ app.post('/api/users',(req,res)=> {
 
 
     if(req.body.Nombre == undefined || req.body.Nombre == "") {
-        errorStr.push("Nombre");
+        errorStr.push("nombre");
         missing = true;
     }
     if(req.body.Apellido == undefined || req.body.Apellido == "") {
-        errorStr.push("Apellido");
+        errorStr.push("apellido");
         missing = true;
     }
     if(req.body.Correo == undefined || req.body.Correo == "") {
-        errorStr.push("Correo");
+        errorStr.push("correo");
         missing = true;
     }
     if(req.body.Contrasenia == undefined || req.body.Contrasenia == "") {
-        errorStr.push("Contrasenia");
+        errorStr.push("contraseña");
         missing = true;
     }
     if(req.body.Nacimiento == undefined || req.body.Nacimiento == "") {
-        errorStr.push("Nacimiento");
+        errorStr.push("fecha de nacimiento");
         missing = true;
     }
     if(req.body.Actividad == undefined || req.body.Actividad == "") {
-        errorStr.push("Actividad");
+        errorStr.push("actividad");
         missing = true;
     }
     if(req.body.Region == undefined || req.body.Region == "") {
-        errorStr.push("Region");
+        errorStr.push("región");
         missing = true;
     }
     if(req.body.Peso == undefined || req.body.Peso == "") {
-        errorStr.push("Peso");
+        errorStr.push("peso");
         missing = true;
     }
     if(req.body.Estatura == undefined || req.body.Estatura == "") {
-        errorStr.push("Estatura");
+        errorStr.push("estatura");
         missing = true;
     }
     if(req.body.Sexo == undefined || !(req.body.Sexo == "M" || req.body.Sexo == "H")) {
-        errorStr.push("Sexo");
+        errorStr.push("sexo");
         missing = true;
     }
     if(req.body.StatsData == undefined || !(req.body.StatsData == true || req.body.StatsData == false)) {  

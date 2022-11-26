@@ -46,3 +46,19 @@ content-type: application/json
     "UrlPicture": ""
 }
 
+### Debe arrojar error porque faltan elementos
+POST http://localhost:3000/api/users
+content-type: application/json
+
+{
+    "Nombre": "Arnoldo",
+    "Apellido": "Ramírez",
+    "Correo": "",
+    "Nacimiento": "1998-01-01",
+    "Actividad": "",
+    "Region": "TEMPLADA",
+    "Sexo": "M",
+    "StatsData": true,
+    "UrlPicture": ""
+}
+
