@@ -21,8 +21,8 @@ body {
     font-size: 30px;
     text-align: left;
     margin-left: 10%;
-    color: #d77754;
-    text-shadow: 1px 2px 2px #000;
+    color: #271008;
+
 }
 
 /*Que el navbar tenga sombra*/
@@ -98,11 +98,22 @@ body {
     height: 220px;
 }
 
-.rounded-circle.drink {
+.card {
+
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+    box-shadow: 0 0 1px rgba(0,0,0,1.5);
+}
+
+.card-img-top {
     width: 100px;
-    display: block;
-    text-align: center;
-    
+    height: 100px;
+    object-fit: cover;
+    align-self: center;
+    border-radius: 50%;
+    margin-top: 15px;
 }
 
 #EditarCuentaBoton, #ConsumoBoton, #MetaBoton {
@@ -169,6 +180,11 @@ body {
     font-weight: 300;
     font-family: 'Rubik', sans-serif;
     color: #345d87;
+}
+
+.annotation {
+    font-size: 12 px;
+    color: #aaadad;
 }
 
 #goalDigit {

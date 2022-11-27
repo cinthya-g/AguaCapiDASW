@@ -84,6 +84,9 @@ let userSchema = mongoose.Schema({
     },
     Token: {
         type: String
+    },
+    Meta: {
+        type: Number
     }
 })
 
@@ -93,18 +96,17 @@ let liquidSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    Tamanio: {
+    Cantidad: {
         type: Number,
-        min:10,
-        max:2000,
+        min: 10,
+        max: 2000,
         required: true
     },
     URL:{
-        type: String,
-        required: true
+        type: String
     },
     IDPertenenciaUsuario:{
-        type:Number
+        type: String
     }
 })
 
@@ -122,7 +124,6 @@ let adminSchema = mongoose.Schema({
 // ------DECLARACION DE SCHEMAS-----------------------------------------------------------------------------------
 let User = mongoose.model('User', userSchema); //para registro y edicion
 let Liquid = mongoose.model('Liquid', liquidSchema);
-let Admin = mongoose.model('Admin', adminSchema);
 
 // ---------------------------------------------------------------------------------------------------------------
 
@@ -153,8 +154,7 @@ function autenticarUsuario(req, res, next) {
                 next();
             } else {
                 // el token no es valido
-                res.status(404).send({error 
-                    : "No estás autorizado para realizar esta acción, token inválido."});
+                res.status(404).send( "No estás autorizado para realizar esta acción, token inválido.");
             }
         });
     } else {
@@ -389,6 +389,7 @@ app.post('/api/users/login', (req,res)=>{
     Se utiliza para editar la cuenta de un usuario sin repetir correos existentes.
     Debe verificar que el token sea correcto.
     Buscar a partir del _id del usuario.
+    No necesariamente debe editar todos los datos existentes.
     ---------------------------------------------
     STATUS CODES:
     405 si falta el token (middleware)
@@ -398,56 +399,56 @@ app.post('/api/users/login', (req,res)=>{
 */
 app.put('/api/users/edit', (req,res)=>{ 
     let buscarEsteId = req.query.id;
-    let errorStr = [];
-    let missing = false;
-    // Verificar que no falte nada:
-    if(req.body.Nombre == undefined || req.body.Nombre == "") {
-        errorStr.push("nombre");
-        missing = true;
+    let updatedSomething = false;
+    let editedUser = {};
+
+    // Verificar qué campos quiere editar de su perfil:
+    if(req.body.Nombre != undefined) {
+        editedUser.Nombre = req.body.Nombre;
+        updatedSomething = true;
     }
-    if(req.body.Apellido == undefined || req.body.Apellido == "") {
-        errorStr.push("apellido");
-        missing = true;
+    if(req.body.Apellido != undefined) {
+        editedUser.Apellido = req.body.Apellido;
+        updatedSomething = true;
     }
-    if(req.body.Correo == undefined || req.body.Correo == "") {
-        errorStr.push("correo");
-        missing = true;
+    if(req.body.Correo != undefined) {
+        editedUser.Correo = req.body.Correo;
+        updatedSomething = true;
     }
-    if(req.body.Contrasenia == undefined || req.body.Contrasenia == "") {
-        errorStr.push("contraseña");
-        missing = true;
+    if(req.body.Contrasenia != undefined) {
+        editedUser.Contrasenia = bcrypt.hashSync(req.body.Contrasenia, 10);
+        updatedSomething = true;
     }
-    if(req.body.Nacimiento == undefined || req.body.Nacimiento == "") {
-        errorStr.push("fecha de nacimiento");
-        missing = true;
+    if(req.body.Nacimiento != undefined) {
+        editedUser.Nacimiento = req.body.Nacimiento;
+        updatedSomething = true;
     }
-    if(req.body.Actividad == undefined || req.body.Actividad == "") {
-        errorStr.push("actividad");
-        missing = true;
+    if(req.body.Actividad != undefined) {
+        editedUser.Actividad = req.body.Actividad;
+        updatedSomething = true;
     }
-    if(req.body.Region == undefined || req.body.Region == "") {
-        errorStr.push("región");
-        missing = true;
+    if(req.body.Region != undefined) {
+        editedUser.Region = req.body.Region;
+        updatedSomething = true;
     }
-    if(req.body.Peso == undefined || req.body.Peso == "") {
-        errorStr.push("peso");
-        missing = true;
+    if(req.body.Peso != undefined) {
+        editedUser.Peso = req.body.Peso;
+        updatedSomething = true;
     }
-    if(req.body.Estatura == undefined || req.body.Estatura == "") {
-        errorStr.push("estatura");
-        missing = true;
+    if(req.body.Estatura != undefined) {
+        editedUser.Estatura = req.body.Estatura;
+        updatedSomething = true;
     }
-    if(req.body.Sexo == undefined || !(req.body.Sexo == "M" || req.body.Sexo == "H")) {
-        errorStr.push("sexo");
-        missing = true;
+    if(req.body.Sexo != undefined) {
+        editedUser.Sexo = req.body.Sexo;
+        updatedSomething = true;
     }
-    // Si falta algún campo:
-    if(missing) {
-        res.status(400).send(`Falta la siguiente información: ${errorStr.join(", ")}.`);
-        return;
+    if(req.body.UrlPicture != undefined) {
+        editedUser.UrlPicture = req.body.UrlPicture;
+        updatedSomething = true;
     }
-    // Si no falta nada:
-    else {
+
+    if(updatedSomething) {
         // Verificar que el correo no exista:
         User.find({Correo : req.body.Correo},(err,docs)=>{
             if(err) {
@@ -457,18 +458,7 @@ app.put('/api/users/edit', (req,res)=>{
             // Si el correo no existe:
             if(docs.length == 0) {
                 // Actualizar el usuario:
-                User.updateOne({_id : buscarEsteId}, {
-                    Nombre : req.body.Nombre,
-                    Apellido : req.body.Apellido,
-                    Correo : req.body.Correo,
-                    Contrasenia : bcrypt.hashSync(req.body.Contrasenia, 10),
-                    Nacimiento : req.body.Nacimiento,
-                    Actividad : req.body.Actividad,
-                    Region : req.body.Region,
-                    Peso : req.body.Peso,
-                    Estatura : req.body.Estatura,
-                    Sexo : req.body.Sexo
-                }, (err,doc)=>{
+                User.updateOne({_id : buscarEsteId}, editedUser,{new:true}, (err,doc)=>{
                     if(err) {
                         res.status(500).send("Error al actualizar el usuario.");
                         return;
@@ -486,8 +476,11 @@ app.put('/api/users/edit', (req,res)=>{
                 return;
             }
         }); 
-    } 
-
+    
+    } else {
+        res.status(200).send("No se ingresaron datos distintos.");
+        return;
+    }
 });
 
 
@@ -513,11 +506,12 @@ function autenticarAdmin(req, res, next) {
     }
 
 }
-app.use("/api/admin/search", autenticarAdmin);
+app.use("/api/admin/", autenticarAdmin);
 
 // ----- FILTROS DE BÚSQUEDA DE USUARIOS ---------------
-/* GET /api/admin/search?nombre=##&apellido=##
+/* GET /api/admin/search?nombre=##&apellido=##&id=###
     Se utiliza para buscar usuarios por nombre y/o apellido en la barra de búsquedas del admin.
+    O si se consultan los detalles, entonces se usa con id.
     Debe verificar que el token del admin sea correcto.
     Muestra coincidencias con el substring enviado o con el nombre/apellido si es que está completo.
     ---------------------------------------------
@@ -528,12 +522,16 @@ app.use("/api/admin/search", autenticarAdmin);
 app.get('/api/admin/search', (req,res)=>{
     let nombre = req.query.nombre;
     let apellido = req.query.apellido;
+    let id = req.query.id;
     let filtro = {};
     if(nombre != undefined) {
         filtro.Nombre = {$regex : nombre};
     }
     if(apellido != undefined) {
         filtro.Apellido = {$regex : apellido};
+    }
+    if(id != undefined) {
+        filtro._id = id;
     }
     User.find(filtro, (err, docs)=>{
         if(err) {
@@ -550,30 +548,89 @@ app.get('/api/admin/search', (req,res)=>{
     });
 });
 
+// ------ ELIMINAR USUARIO ----------------
+/* DELETE /api/admin/delete?id=###
+    Se utiliza para eliminar un usuario.
+    Debe verificar que el token del admin sea correcto.
+    ---------------------------------------------
+    STATUS CODES:
+    405 si falta el token (middleware)
+    500 si hay un error en la base de datos
+    200 si se eliminó correctamente
+*/
+app.delete('/api/admin/deleteuser', (req,res)=>{
+    let id = req.query.id;
+    User.deleteOne({_id : id
+    }, (err, docs)=>{
+        if(err) {
+            res.status(500).send("Error al eliminar el usuario.");
+            return;
+        }
+        else {
+            console.log("Usuario eliminado: ");
+            console.log(docs);
+            res.status(200).send(docs);
 
-
-
-// PUBLICAR BEBIDA
-app.post('/api/liquids',(req,res)=> {
-    let newLiquid = {Nombre: req.body.Nombre,Tamanio: req.body.Tamanio,URL: req.body.URL,IDPertenenciaUsuario:req.body.IDPertenenciaUsuario};
-    let liquid= Liquid(newLiquid);
-    liquid.save().then((doc)=> console.log(chalk.green("Bebida Creada: ")+ doc));
+            return;
+        }
+    });
 });
 
 
-// ELIMINAR USUARIO
-app.delete('/api/users', (req, res) => {
-    console.log(chalk.yellow("Eliminando usuario..."));
-    let idToDelete = req.body._id;
-    //let User = mongoose.model('User', userSchema);
-    User.findByIdAndDelete(idToDelete, (err, doc) => {
+// ------ PUBLICAR BEBIDA DEFAULT ------------
+/* POST /api/admin/addliquid
+    Se utiliza para agregar una bebida default.
+    Debe verificar que el token del admin sea correcto.
+    ---------------------------------------------
+    STATUS CODES:
+    405 si falta el token (middleware)
+    500 si hay un error en la base de datos
+    200 si se agregó correctamente
+*/
+app.post('/api/admin/addliquid', (req,res)=>{
+    let nuevaBebida = new Liquid({
+        Nombre : req.body.Nombre,
+        Cantidad : req.body.Cantidad,
+        URL : req.body.URL,
+        IDPertenenciaUsuario : "default"
+    });
+    nuevaBebida.save((err,doc)=> {
         if(err) {
-            console.log("ERROR: "+err);
-            res.send(err);
-        } else {
-            console.log(chalk.green("¡Usuario eliminado!:"));
+            res.status(500).send("Error al guardar la bebida.");
+            return;
+        }
+        else {
+            console.log("Bebida agregada: ");
             console.log(doc);
-            res.send(doc);
+            res.status(200).send(doc);
+            return;
+        }
+    });
+});
+
+// ------ ELIMINAR BEBIDA DEFAULT ------------
+/* DELETE /api/admin/deleteliquid?id=###
+    Se utiliza para eliminar una bebida default.
+    Debe verificar que el token del admin sea correcto.
+    ---------------------------------------------
+    STATUS CODES:
+    405 si falta el token (middleware)
+    500 si hay un error en la base de datos
+    200 si se eliminó correctamente
+*/
+app.delete('/api/admin/deleteliquid', (req,res)=>{ 
+    let id = req.query.id;
+    Liquid.deleteOne({_id : id }, (err, docs)=>{
+        if(err) {
+            res.status(500).send("Error al eliminar la bebida.");
+            return;
+        }
+        else {
+            console.log("Bebida eliminada: ");
+            console.log(docs);
+            res.status(200).send(docs);
+
+            return;
         }
     });
 });

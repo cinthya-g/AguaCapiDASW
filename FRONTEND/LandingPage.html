@@ -98,43 +98,45 @@
 
   <!-- Listado de bebidas añadidas por el usuario -->
   <p class="subtitle">Bebidas añadidas recientemente:</p>
+  
   <div class="row mt-4 drinkCards">
-    <!-- Todas las imágenes de las bebidas deben ser 800x800-->
+    
     <div class="row">
+
       <div class="col-xs-1-12">
-        <div class="card align-self-center" style="width:auto">
+        <div class="card align-self-center">
+          <img class="card-img-top" src="./IMAGES/DRINKS/te.jpg">
           <div class="card-body">
-            <img src="./IMAGES/DRINKS/agua.jpg" class="rounded-circle drink">
-            <h3 class="card-title" style="text-align: center">Agua</h3>
-            <p class="card-text" style="text-align: center">345ml</p>
+            <h3 class="card-title" style="text-align:center">Infusión</h3>
+            <p class="card-text" style="text-align:center">250ml</p>
           </div>
         </div>
       </div>
       
       <div class="col-xs-1-12">
-        <div class="card align-self-center" style="width:auto">
+        <div class="card align-self-center">
+          <img class="card-img-top" src="./IMAGES/DRINKS/agua.jpg">
           <div class="card-body">
-            <img src="./IMAGES/DRINKS/cafe.jpg" class="rounded-circle drink">
+            <h3 class="card-title" style="text-align:center">Agua</h3>
+            <p class="card-text" style="text-align:center">700ml</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-1-12">
+        <div class="card align-self-center">
+          <img class="card-img-top" src="./IMAGES/DRINKS/cafe.jpg">
+          <div class="card-body">
             <h3 class="card-title" style="text-align:center">Café</h3>
-            <p class="card-text" style="text-align:center">250ml</p>
+            <p class="card-text" style="text-align:center">300ml</p>
           </div>
         </div>
       </div>
 
       <div class="col-xs-1-12">
-        <div class="card align-self-center" style="width:auto">
+        <div class="card align-self-center">
+          <img class="card-img-top" src="./IMAGES/DRINKS/jugo.jpg">
           <div class="card-body">
-            <img src="./IMAGES/DRINKS/te.jpg" class="rounded-circle drink">
-            <h3 class="card-title" style="text-align:center">Té</h3>
-            <p class="card-text" style="text-align:center">160ml</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-xs-1-12">
-        <div class="card align-self-center" style="width:auto">
-          <div class="card-body">
-            <img src="./IMAGES/DRINKS/jugo.jpg" class="rounded-circle drink">
             <h3 class="card-title" style="text-align:center">Mamarindo</h3>
             <p class="card-text" style="text-align:center">700ml</p>
           </div>
@@ -142,6 +144,7 @@
       </div>
 
     </div>
+    
     
   </div>
 
@@ -252,16 +255,16 @@
         <div class="container-fluid">
           <div class="form-group">
             <label>Selecciona una bebida:</label><br>
+            
             <select required>
-              <option>Agua</option>
-              <option>Café</option>
-              <option>Té</option>
-              <option>Mamarindo</option>
+              <option>Agua natural (600ml)</option>
+              <option>Agua natural (1000ml)</option>
+              <option>Café (250ml)</option>
+              <option>Infusión (250ml)</option>
+              <option>Refresco (355ml)</option>
             </select>
-            <br><br>
-            <label>Cantidad (10 - 2000 ml):</label><br>
-            <input class="number" required placeholder="250ml" min="10" max="2000">
-
+            
+            <br>
           </div>
         </div>
       </div>
@@ -294,7 +297,7 @@
             <input class="number" required placeholder="250ml" min="10" max="2000">
             <br><br>
             <label>URL de imagen (opcional):</label><br>
-            <input class="text" placeholder="https://pixabay.com/photos/cappuccino.jpg" size="40">
+            <input class="text" placeholder="https://freephotos.com/cappuccino.jpg" size="40">
           </div>
         </div>
       </div>
@@ -323,7 +326,8 @@
           <div class="form-group">
             <label>Nombre de la bebida a eliminar:</label><br>
             <input class="text" placeholder="E.j. Malteada">
-
+            <br>
+            <small class="annotation">Se eliminará la bebida más reciente encontrada que coincida</small>
           </div>
         </div>
       </div>
