@@ -95,6 +95,7 @@ body {
 
 .rounded-circle.user {
     width: 220px;
+    height: 220px;
 }
 
 .rounded-circle.drink {

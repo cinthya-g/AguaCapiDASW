@@ -1,34 +1,46 @@
-
-### CREAR BEBIDA
-POST http://localhost:3000/api/liquids
+### CREAR ADMIN
+POST http://localhost:3000/api/users/register
 content-type: application/json
 
 {
-    "Nombre": "Wakardi",
-    "Tamanio": 750,
-    "URL": "https://randomuser.me/api/portraits/women/20.jpg",
-    "IDPertenenciaUsuario": 1
-}
-
-### ELIMINAR USUARIO
-DELETE http://localhost:3000/api/users
-content-type: application/json
-
-{
-    "Nombre": "Gupilio",
-    "Apellido": "Gopez",
-    "Correo": "correo@email.com",
-    "Contrasenia": "wenas",
-    "Date": "2016-01-01",
+    "Nombre": "ADMIN",
+    "Apellido": "aaaa",
+    "Correo": "adm@capi.com",
+    "Contrasenia": "admin123",
+    "Nacimiento": "2000-01-01",
+    "Actividad": "BAJA",
+    "Region": "TEMPLADA",
+    "Peso": 1,
+    "Estatura": 1,
     "Sexo": "M",
-    "UID": 1,
-    "_id": "637f7f87ca4acd86bfe77369"
+    "StatsData": true,
+    "UrlPicture": ""
 }
 
+### Obtener token del admin
+POST http://localhost:3000/api/users/login
+content-type: application/json
+
+{
+    "Correo": "adm@capi.com",
+    "Contrasenia": "admin123"
+}
+
+### FILTRAR USUARIOS CON ADMIN
+GET http://localhost:3000/api/admin/search?nombre=Carlos
+content-type: application/json
+x-user-token: admintoken
+
+### FILTRAR USUARIOS CON ADMIN TOKEN INCORRECTO
+GET http://localhost:3000/api/admin/search?nombre=k
+content-type: application/json
+x-user-token: zLGr2M1yA2-6382a29df4fc17346a204c1f
+
+### ----------------------------------------------------------------------------------------
 
 ### --------------------------------------------------------------
 ### CREAR USUARIO CON CAMPOS COMPLETOS
-POST http://localhost:3000/api/users
+POST http://localhost:3000/api/users/register
 content-type: application/json
 
 {
@@ -46,19 +58,135 @@ content-type: application/json
     "UrlPicture": ""
 }
 
-### Debe arrojar error porque faltan elementos
-POST http://localhost:3000/api/users
+### REGISTRAR USUARIO
+POST http://localhost:3000/api/users/register
 content-type: application/json
 
 {
-    "Nombre": "Arnoldo",
-    "Apellido": "Ramírez",
-    "Correo": "",
-    "Nacimiento": "1998-01-01",
-    "Actividad": "",
+    "Nombre": "Gupilio",
+    "Apellido": "Gopez",
+    "Correo": "kiw@gmail.com",
+    "Contrasenia": "kiw2",
+    "Nacimiento": "2016-01-05",
+    "Actividad": "BAJA",
     "Region": "TEMPLADA",
-    "Sexo": "M",
+    "Peso": 11,
+    "Estatura": 80,
+    "Sexo": "H",
     "StatsData": true,
     "UrlPicture": ""
 }
+
+###  REGISTRAR USUARIO
+POST http://localhost:3000/api/users/register
+content-type: application/json
+
+{
+    "Nombre": "Carlos",
+    "Apellido": "Ponce",
+    "Correo": "charles@gmail.com",
+    "Contrasenia": "mariobros",
+    "Nacimiento": "2001-12-29",
+    "Actividad": "BAJA",
+    "Region": "TEMPLADA",
+    "Peso": 70,
+    "Estatura": 188,
+    "Sexo": "H",
+    "StatsData": true,
+    "UrlPicture": ""
+}
+
+### REGISTRAR USUARIO
+POST http://localhost:3000/api/users/register
+content-type: application/json
+
+{
+    "Nombre": "Iker",
+    "Apellido": "Johannsen",
+    "Correo": "ijk@gmail.com",
+    "Contrasenia": "bab4s",
+    "Nacimiento": "1999-08-02",
+    "Actividad": "MEDIA",
+    "Region": "CALUROSA",
+    "Peso": 75,
+    "Estatura": 184,
+    "Sexo": "H",
+    "StatsData": true,
+    "UrlPicture": ""
+}
+
+### INICIAR SESION CON TOKEN
+POST http://localhost:3000/api/users/login
+content-type: application/json
+
+{
+    "Correo": "kiw@gmail.com",
+    "Contrasenia": "kiw2"
+}
+
+### INICIAR SESION CON TOKEN
+POST http://localhost:3000/api/users/login
+content-type: application/json
+
+{
+    "Correo": "charles@gmail.com",
+    "Contrasenia": "mariobros"
+}
+
+### INICIAR SESION CON TOKEN
+POST http://localhost:3000/api/users/login
+content-type: application/json
+
+{
+    "Correo": "cg@email.com",
+    "Contrasenia": "123456"
+}
+
+### INICIAR SESION CON TOKEN
+POST http://localhost:3000/api/users/login
+content-type: application/json
+
+{
+    "Correo": "ikj2@email.com",
+    "Contrasenia": "b4b4sas"
+}
+
+### EDITAR DATOS DE USUARIO CON TOKEN
+PUT http://localhost:3000/api/users/edit?id=6382a29df4fc17346a204c1f
+content-type: application/json
+x-user-token: zLGr2M1yA2-6382a29df4fc17346a204c1f
+
+{
+    "Nombre": "Lorena",
+    "Apellido": "García",
+    "Correo": "otronuevomail@email.com",
+    "Contrasenia": "nuevapass",
+    "Nacimiento": "2002-01-01",
+    "Actividad": "ALTA",
+    "Region": "TEMPLADA",
+    "Peso": 60,
+    "Estatura": 169,
+    "Sexo": "M",
+    "StatsData": true
+}
+
+###
+PUT http://localhost:3000/api/users/edit?id=6383989ccbebeaa528811626
+content-type: application/json
+x-user-token: qUCrbme4cT-6383989ccbebeaa528811626
+
+{
+    "Nombre": "Kiker",
+    "Apellido": "Johannsen",
+    "Correo": "ikrj@email.com",
+    "Contrasenia": "b4b4sas",
+    "Nacimiento": "1999-09-09",
+    "Actividad": "MEDIA",
+    "Region": "CALUROSA",
+    "Peso": 75,
+    "Estatura": 183,
+    "Sexo": "H",
+    "StatsData": true
+}
+
 
