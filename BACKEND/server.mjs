@@ -85,11 +85,15 @@ let userSchema = mongoose.Schema({
     Token: {
         type: String
     },
+    // Lo que lleva
     Meta: {
+        type: Number
+    },
+    // Lo que debe alcanzar
+    MetaObjetivo: {
         type: Number
     }
 })
-
 
 let liquidSchema = mongoose.Schema({
     Nombre: {
@@ -110,22 +114,64 @@ let liquidSchema = mongoose.Schema({
     }
 })
 
-let adminSchema = mongoose.Schema({
-    Correo: {
-        type: String,
-        required: true
+let consumoSchema = mongoose.Schema({
+    Fecha: {
+        type: String
     },
-    Contrasenia: {
-        type: String,
-        required: true
+    IDUsuario: {
+        type: String
+    } ,
+    IDBebida: {
+        type: String
+    },
+    NombreBebida: {
+        type: String
+    },
+    Cantidad: {
+        type: Number,
+        min: 10,
+        max: 2000
     }
 })
 
 // ------DECLARACION DE SCHEMAS-----------------------------------------------------------------------------------
-let User = mongoose.model('User', userSchema); //para registro y edicion
+let User = mongoose.model('User', userSchema); 
 let Liquid = mongoose.model('Liquid', liquidSchema);
-
+let Consumo = mongoose.model('Consumo', consumoSchema);
 // ---------------------------------------------------------------------------------------------------------------
+
+// ------- ACTUALIZAR META ----------------------------------------------------------------------
+/* Función que recibe el id del usuario y la fecha actual.
+   Devolverá la suma de las cantidades de los consumos que coincidan con el id del usuario y la fecha actual.
+*/
+function updateMeta(idUsuario){
+    let fechaHoy = new Date().toJSON().slice(0,10);
+    let sumaMeta = 0;
+    console.log("La fecha es: "+ fechaHoy);
+    // Buscar todos los consumos que coincidan con el id del usuario y la fecha actual
+    Consumo.find({IDUsuario: idUsuario, Fecha: fechaHoy}, (err, consumos) => {
+        console.log("Consumos encontrados: "+ consumos.length);
+        if(err){
+            console.log(err);
+        } else {
+            // Sumar las cantidades de los consumos
+            consumos.forEach(consumo => {
+                sumaMeta += consumo.Cantidad;
+            });
+        }
+    });
+    // Buscar el usuario que tiene ese id y actualizar su meta
+    User.findOne({_id: idUsuario}, (err, usuario) => {
+        if(err){
+            console.log(err);
+        } else {
+            usuario.Meta = sumaMeta;
+            console.log(chalk.bgGreen("La meta de "+ usuario.Nombre +" es: "+ usuario.Meta));
+            usuario.save();
+        }
+    });
+}
+
 
 // *****************************************************************************************************************
 //                           USUARIO
@@ -137,7 +183,8 @@ let Liquid = mongoose.model('Liquid', liquidSchema);
    ------------------------------------
    STATUS CODES:
    500 error interno de la bd
-   401 no existe ese token o no tiene token
+   401 hay un token, pero no existe en la bd
+   400 no hay token
 */
 function autenticarUsuario(req, res, next) {
     // verificar si existe el header con el token
@@ -154,15 +201,17 @@ function autenticarUsuario(req, res, next) {
                 next();
             } else {
                 // el token no es valido
-                res.status(404).send( "No estás autorizado para realizar esta acción, token inválido.");
+                res.status(401).send( "No estás autorizado para realizar esta acción, token inválido.");
             }
         });
     } else {
-        // No existe dicho header
-        res.status(405).send("Usuario no autenticado: no tiene token.")
+        // No existe dicho header (forbidden)
+        res.status(400).send("Usuario no autenticado: no tiene token.")
     }
 }
 app.use("/api/users/edit", autenticarUsuario);
+app.use("/api/users/addliquid", autenticarUsuario);
+app.use("/api/users/deleteliquid", autenticarUsuario);
 
 
 //  ----- REGISTRAR USUARIO ---------
@@ -171,8 +220,8 @@ app.use("/api/users/edit", autenticarUsuario);
   y que tampoco exista el correo en la base de datos. También encripta password.
   ------------------------------------
   STATUS CODES:
-   400 si falta información
-   401 si el correo o el nombre ya existen
+   401 hay un token, pero no existe en la bd o si ya hay un correo existente
+   400 no hay token o si falta informacion
    500 si hay un error en la base de datos
    201 si se registró correctamente
 */
@@ -266,14 +315,14 @@ app.post('/api/users/register',(req,res)=> {
                         // Crear el usuario:
                         // OJO: se añade un espacio de token VACIO para que el userSchema no dé errores
                         let token = "notoken";
-                        let today =  new Date();
+                        let today = new Date().toJSON().slice(0,10);
                         let newUser = new User({
                             Nombre: req.body.Nombre,
                             Apellido: req.body.Apellido,
                             Correo: req.body.Correo,
                             Contrasenia: hash,
                             Nacimiento: req.body.Nacimiento,
-                            Registro: `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`,
+                            Registro: today,
                             Actividad: req.body.Actividad,
                             Region: req.body.Region,
                             Peso: req.body.Peso,
@@ -309,8 +358,8 @@ app.post('/api/users/register',(req,res)=> {
     Si ya tiene token, enviar el mismo que ya tiene.
     -------------------------------------------
     STATUS CODES:
-    400 si falta correo o contraseña
-    401 si el correo o la contraseña son incorrectos
+   401 hay un token, pero no existe en la bd o el correo no existe
+   400 no hay token o si falta info. de login
     500 si hay un error en la base de datos
     201 si se inició sesión correctamente
 */
@@ -368,6 +417,8 @@ app.post('/api/users/login', (req,res)=>{
                             }
                             // Si se guardó correctamente:
                             else {
+                                // Actualizar consumo en caso de que se reloggee;
+                                updateMeta(docs[0]._id);
                                 res.set('x-user-token', newToken);
                                 res.status(201).send(newToken);
                                 return;
@@ -392,8 +443,8 @@ app.post('/api/users/login', (req,res)=>{
     No necesariamente debe editar todos los datos existentes.
     ---------------------------------------------
     STATUS CODES:
-    405 si falta el token (middleware)
-    405 si el token es incorrecto (middleware)
+   401 hay un token, pero no existe en la bd
+   400 no hay token o si se quiere cambiar el correo a uno existente
     500 si hay un error en la base de datos
     400 si falta algún campo
 */
@@ -483,6 +534,155 @@ app.put('/api/users/edit', (req,res)=>{
     }
 });
 
+// ----- AÑADIR CONSUMO: USUARIO ----------------
+/* POST /api/users/addliquid
+    Se utiliza para añadir un consumo de líquido a un usuario.
+    Debe verificar que el token sea correcto.
+    Buscar a partir del _id del usuario.
+    ---------------------------------------------
+    STATUS CODES:
+    401 hay un token, pero no existe en la bd
+    400 no hay token
+    500 si hay un error en la base de datos
+    201 si se registra bien el consumo
+*/
+app.post('/api/users/addliquid', (req,res)=>{ 
+    // Se añade un consumo independientemente de si es de bebida default o no
+    // Recibe un body que recopila:
+    // {IDUsuario, IDBebida, NombreBebida, Cantidad, URL}
+
+    // Si es una bebida default, entonces se busca esa bebida en el schema de liquids  utilizando su nombre y cantidad
+    // y se agrega como consumo al usuario con la fecha actual +su id de usuario
+    if(req.body.IDBebida != undefined) {
+        Liquid.find({_id : req.body.IDBebida}, (err,docs)=>{
+            if(err) {
+                res.status(500).send("Error al buscar la bebida.");
+                return;
+            }
+            // Si la bebida existe:
+            if(docs.length > 0) {
+                // Vamos a crear nuevo consumo para ese usuario con esa bebida default:
+                // Guardamos fecha actual:
+                let today = new Date().toJSON().slice(0,10);
+                let newConsumo = new Consumo({
+                    Fecha: today,
+                    IDUsuario: req.body.IDUsuario,
+                    IDBebida: req.body.IDBebida,
+                    NombreBebida: docs[0].Nombre,
+                    Cantidad: docs[0].Cantidad
+                });
+
+                // Se añade el consumo nuevo creado:
+                newConsumo.save((err,doc)=>{
+                    if(err) {
+                        res.status(500).send("Error al guardar el consumo.");
+                        return;
+                    }
+                    // Si se guardó correctamente:
+                    else {
+                        // Actalizar meta de lo q lleva consumido el usuario:
+                        updateMeta(req.body.IDUsuario);
+                        res.status(201).send("Consumo registrado correctamente.");
+                        return;
+                    }
+                });
+            }
+        });
+    }
+    // Si es una bebida personalizada, entonces se crea una nueva bebida con los datos recibidos en el body
+    // y también se crea un consumo vinculado al usuario que la creó y esa nueva bebida
+    else {
+        // Vamos a crear una nueva bebida personalizada:
+        // Ver si tiene URL o asignarle una default
+        let newURL = req.body.URL;
+        if(newURL == undefined || newURL == "") {
+            newURL = "../IMAGES/DRINKS/default.png";
+        }
+        // Crear nueva bebida:
+        let newLiquid = new Liquid({
+            Nombre: req.body.NombreBebida,
+            Cantidad: req.body.Cantidad,
+            URL: newURL,
+            IDPertenenciaUsuario: req.body.IDUsuario
+        });
+        // Se añade la bebida nueva:
+        newLiquid.save((err,doc)=>{
+            if(err) {
+                res.status(500).send("Error al guardar la bebida.");
+                return;
+            }
+            // Si se guardó correctamente:
+            else {
+                // Vamos a crear nuevo consumo para ese usuario con esa bebida personalizada:
+                // Guardamos fecha actual:
+                let today = new Date().toJSON().slice(0,10);
+                let newConsumo = new Consumo({
+                    Fecha: today,
+                    IDUsuario: req.body.IDUsuario,
+                    IDBebida: doc._id,
+                    NombreBebida: req.body.NombreBebida,
+                    Cantidad: req.body.Cantidad
+                });
+
+                // Se añade el consumo nuevo creado:
+                newConsumo.save((err,doc)=>{
+                    if(err) {
+                        res.status(500).send("Error al guardar el consumo.");
+                        return;
+                    }
+                    // Si se guardó correctamente:
+                    else {
+                        // Actalizar meta de lo q lleva consumido el usuario:
+                        updateMeta(req.body.IDUsuario);
+                        res.status(201).send("Consumo registrado correctamente.");
+                        return;
+                    }
+                });
+            }
+        });
+    }
+
+});
+
+// ----- ELIMINAR CONSUMO: USUARIO ----------------
+/* POST /api/users/deleteliquid
+    Se utiliza para eliminar un consumo de líquido a un usuario. Eliminará el consumo más reciente coincidente.
+    Debe verificar que el token sea correcto.
+    Busca a partir del _id del usuario y del nombre de la bebida.
+    ---------------------------------------------
+    STATUS CODES:
+    401 hay un token, pero no existe en la bd
+    400 no hay token
+    500 si hay un error en la base de datos
+    201 si se elimina bien el consumo
+*/
+app.delete('/api/users/deleteliquid', (req,res)=>{
+    // Recibimos: {IDUsuario, NombreBebida}
+    // Buscar el consumo que tenga el nombre de la bebida, fecha de hoy y id del usuario
+    let hoy = new Date().toJSON().slice(0,10);
+    Consumo.findOneAndDelete({IDUsuario: req.body.IDUsuario, NombreBebida: req.body.NombreBebida, Fecha: hoy}, (err,doc)=>{
+        if(err) {
+            res.status(500).send("Error al eliminar el consumo.");
+            return;
+        }
+        else {
+            // Eliminar la bebida vinculada a ese consumo
+            Liquid.findOneAndDelete({Nombre: req.body.NombreBebida, IDPertenenciaUsuario: req.body.IDUsuario}, (err,doc)=>{
+                if(err) {
+                    res.status(500).send("Error al eliminar la bebida.");
+                    return;
+                }
+                // Si se eliminó correctamente:
+                else {
+                    updateMeta(req.body.IDUsuario);
+                    res.status(201).send("Bebida eliminada correctamente.");
+                    return;
+                }
+            });
+        }
+    });
+});
+
 
 // ************************************************************************************************************************************
 //                        ADMINISTRADOR
@@ -493,8 +693,7 @@ app.put('/api/users/edit', (req,res)=>{
    Filtrar usuarios, mostrar detalles y eliminarlos.
    ------------------------------------
    STATUS CODES:
-   500 error interno de la bd
-   401 no existe ese token o no tiene token
+   403 no cuenta con token de administrador 'admintoken'
 */
 function autenticarAdmin(req, res, next) {
     if(req.headers['x-user-token'] == "admintoken") {
@@ -502,7 +701,7 @@ function autenticarAdmin(req, res, next) {
         next();
     }
     else {
-        res.status(404).send("No está autorizado para entrar a contenido de administrador");
+        res.status(403).send("No está autorizado para entrar a contenido de administrador");
     }
 
 }
@@ -516,8 +715,9 @@ app.use("/api/admin/", autenticarAdmin);
     Muestra coincidencias con el substring enviado o con el nombre/apellido si es que está completo.
     ---------------------------------------------
     STATUS CODES:
-    405 si falta el token (middleware)
+    403 si falta el token (middleware)
     500 si hay un error en la base de datos
+    200 si se encontró el usuario
 */
 app.get('/api/admin/search', (req,res)=>{
     let nombre = req.query.nombre;
@@ -554,7 +754,7 @@ app.get('/api/admin/search', (req,res)=>{
     Debe verificar que el token del admin sea correcto.
     ---------------------------------------------
     STATUS CODES:
-    405 si falta el token (middleware)
+    403 si falta el token (middleware)
     500 si hay un error en la base de datos
     200 si se eliminó correctamente
 */
@@ -583,9 +783,9 @@ app.delete('/api/admin/deleteuser', (req,res)=>{
     Debe verificar que el token del admin sea correcto.
     ---------------------------------------------
     STATUS CODES:
-    405 si falta el token (middleware)
+    403 si falta el token (middleware)
     500 si hay un error en la base de datos
-    200 si se agregó correctamente
+    201 si se agregó correctamente
 */
 app.post('/api/admin/addliquid', (req,res)=>{
     let nuevaBebida = new Liquid({
@@ -602,7 +802,7 @@ app.post('/api/admin/addliquid', (req,res)=>{
         else {
             console.log("Bebida agregada: ");
             console.log(doc);
-            res.status(200).send(doc);
+            res.status(201).send(doc);
             return;
         }
     });
@@ -614,7 +814,7 @@ app.post('/api/admin/addliquid', (req,res)=>{
     Debe verificar que el token del admin sea correcto.
     ---------------------------------------------
     STATUS CODES:
-    405 si falta el token (middleware)
+    403 si falta el token (middleware)
     500 si hay un error en la base de datos
     200 si se eliminó correctamente
 */

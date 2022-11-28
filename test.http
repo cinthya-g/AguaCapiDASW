@@ -66,7 +66,7 @@ x-user-token: admintoken
 {
     "Nombre": "Agua natural",
     "Cantidad": 600,
-    "URL": "../IMAGES/agua.jpg"
+    "URL": "../IMAGES/DRINKS/agua.jpg"
 }
 
 ### CREAR BEBIDA DEFAULT
@@ -104,6 +104,25 @@ content-type: application/json
     "Region": "TEMPLADA",
     "Peso": 60,
     "Estatura": 168,
+    "Sexo": "M",
+    "StatsData": true,
+    "UrlPicture": ""
+}
+
+### CREAR USUARIO CON CAMPOS COMPLETOS
+POST http://localhost:3000/api/users/register
+content-type: application/json
+
+{
+    "Nombre": "Yeso",
+    "Apellido": "Torres",
+    "Correo": "yt@email.com",
+    "Contrasenia": "adsdfsdf",
+    "Nacimiento": "2002-02-01",
+    "Actividad": "MEDIA",
+    "Region": "TEMPLADA",
+    "Peso": 54,
+    "Estatura": 160,
     "Sexo": "M",
     "StatsData": true,
     "UrlPicture": ""
@@ -262,3 +281,107 @@ x-user-token: qUCrbme4cT-6383989ccbebeaa528811626
 }
 
 
+### AGREGAR CONSUMO DEFAULT A USUARIO GUPILIO
+POST http://localhost:3000/api/users/addliquid
+content-type: application/json
+x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
+
+{
+    "IDUsuario": "6382a29ef4fc17346a204c22",
+    "IDBebida": "6383bcdb7882fdf995d4d5cb"
+}
+
+### AGREGAR CONSUMO PERSONALIZADO A GUPILIO
+POST http://localhost:3000/api/users/addliquid
+content-type: application/json
+x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
+
+{
+    "IDUsuario": "6382a29ef4fc17346a204c22",
+    "NombreBebida": "Coca en bolsa",
+    "Cantidad": 700
+}
+
+### AGREGAR CONSUMO PERSONALIZADO A GUPILIO
+POST http://localhost:3000/api/users/addliquid
+content-type: application/json
+x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
+
+{
+    "IDUsuario": "6382a29ef4fc17346a204c22",
+    "NombreBebida": "Tonicol",
+    "Cantidad": 355
+}
+
+### AÑADIR CONSUMO A GUPILIO
+POST http://localhost:3000/api/users/addliquid
+content-type: application/json
+x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
+
+{
+    "IDUsuario": "6382a29ef4fc17346a204c22",
+    "NombreBebida": "Coca en bolsa",
+    "Cantidad": 700
+}
+
+### AÑADIR CONSUMO A GUPILIO
+POST http://localhost:3000/api/users/addliquid
+content-type: application/json
+x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
+
+{
+    "IDUsuario": "6382a29ef4fc17346a204c22",
+    "NombreBebida": "Boing de mango",
+    "Cantidad": 250
+}
+
+### AÑADIR CONSUMO A GUPILIO
+POST http://localhost:3000/api/users/addliquid
+content-type: application/json
+x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
+
+{
+    "IDUsuario": "6382a29ef4fc17346a204c22",
+    "NombreBebida": "Boing de mango",
+    "Cantidad": 500
+}
+
+### ELIMINAR CONSUMO A GUPILIO
+DELETE http://localhost:3000/api/users/deleteliquid
+content-type: application/json
+x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
+
+{
+    "IDUsuario": "6382a29ef4fc17346a204c22",
+    "NombreBebida": "Boing de mango"
+}
+
+### ELIMINAR CONSUMO A GUPILIO
+DELETE http://localhost:3000/api/users/deleteliquid
+content-type: application/json
+x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
+
+{
+    "IDUsuario": "6382a29ef4fc17346a204c22",
+    "NombreBebida": "Boing de mango"
+}
+
+### ELIMINAR CONSUMO A GUPILIO
+DELETE http://localhost:3000/api/users/deleteliquid
+content-type: application/json
+x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
+
+{
+    "IDUsuario": "6382a29ef4fc17346a204c22",
+    "NombreBebida": "Coca en bolsa"
+}
+
+### ELIMINAR CONSUMO A GUPILIO
+DELETE http://localhost:3000/api/users/deleteliquid
+content-type: application/json
+x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
+
+{
+    "IDUsuario": "6382a29ef4fc17346a204c22",
+    "NombreBebida": "Tonicol"
+}
