@@ -35,7 +35,7 @@ function initData(pageNum, usuarios){
 
 function usersToHTML(usuarios){
     let bigDiv = document.getElementById("userContainter")
-    bigDiv.innerHTML = ''
+    bigDiv.innerHTML = '';
     addSearchBar(bigDiv, "Usuarios", "Nombre o apellido de usuario a buscar");
     for(let i of usuarios){
         userToHTML(i, bigDiv);

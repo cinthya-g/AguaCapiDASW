@@ -216,6 +216,7 @@ function autenticarUsuario(req, res, next) {
 app.use("/api/users/edit", autenticarUsuario);
 app.use("/api/users/addliquid", autenticarUsuario);
 app.use("/api/users/deleteliquid", autenticarUsuario);
+app.use("/api/users/getinfo", autenticarUsuario);
 
 
 //  ----- REGISTRAR USUARIO ---------
@@ -695,6 +696,36 @@ app.delete('/api/users/deleteliquid', (req,res)=>{
                     return;
                 }
             });
+        }
+    });
+});
+
+// ----- TRAER INFORMACION DEL USUARIO LOGGEADO ----------------
+/* GET /api/users/getinfo
+    Se utiliza para traer la información del usuario loggeado.
+    Debe verificar que el token sea correcto.
+    Busca a partir del _id del usuario.
+    ---------------------------------------------
+    STATUS CODES:
+    401 hay un token, pero no existe en la bd
+    400 no hay token
+    500 si hay un error en la base de datos
+    201 si se trae bien la información
+*/
+app.get('/api/users/getinfo', (req,res)=>{
+    // Recibimos: {IDUsuario}
+    // Buscar usuario por el _id
+    console.log("id que buscas: " + req.body.id);
+    User.findOne({_id: req.body.id}, (err,doc)=>{
+        if(err) {
+            res.status(500).send("Error al traer la información del usuario.");
+            return;
+        }        
+        else {
+            
+            console.log(chalk.green("Se trajo la información del usuario: " + doc));
+            res.status(201).send(doc);
+            return;
         }
     });
 });

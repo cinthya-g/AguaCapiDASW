@@ -239,3 +239,14 @@ x-user-token: Ixt97gJ4dd-6384c1a8d95a822a1cedb311
     "IDUsuario": "6384c1a8d95a822a1cedb311",
     "NombreBebida": "Té hierbabuena"
 }
+
+
+// Obtener un usuario para la pagina de landingpage
+###
+GET http://localhost:3000/api/users/getinfo
+content-type: application/json
+x-user-token: T4I6MnhK05-6388173dbcfed93b68b1a0ea
+
+{
+    "id": "6388173dbcfed93b68b1a0ea"
+}
