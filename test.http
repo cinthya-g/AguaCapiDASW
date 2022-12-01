@@ -243,10 +243,6 @@ x-user-token: Ixt97gJ4dd-6384c1a8d95a822a1cedb311
 
 // Obtener un usuario para la pagina de landingpage
 ###
-GET http://localhost:3000/api/users/getinfo
+GET http://localhost:3000/api/users/getinfo?id=63883c53355b2e19a9625fae
 content-type: application/json
-x-user-token: T4I6MnhK05-6388173dbcfed93b68b1a0ea
-
-{
-    "id": "6388173dbcfed93b68b1a0ea"
-}
+x-user-token: bFVmdeq1sl-63883c53355b2e19a9625fae

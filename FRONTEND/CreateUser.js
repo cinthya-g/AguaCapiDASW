@@ -93,7 +93,7 @@ BotonReg.addEventListener('click', function(){
     let usarDatos = false;
     if(document.getElementById("StatsReg").checked){
         usarDatos = true
-    }
+    }   
     if(contrasenia == confirmarConstrasenia){
         
         let json = '{"Nombre": "' + nombre + '", "Apellido": "' 

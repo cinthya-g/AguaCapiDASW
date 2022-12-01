@@ -58,41 +58,54 @@
                   <!-- Comienza el form -->
                   <form  class="was-validated">
                     <div class="form-group">
-                        <input type="text" id="Nombre" class="form-control" placeholder="Nombre" required minlength="3"><br>
-                        <input type="text" id="Apellido" class="form-control" placeholder="Apellido" required minlength="3"><br>
-                        <input type="email" id="Correo" class="form-control" placeholder="Correo" name="email" required minlength="10"><br>
-                        <input type="pass" id="Contrasenia" class="form-control" placeholder="Contraseña " name="contra" required><br>
-                        <input type="pass" id="Contrasenia2" class="form-control" placeholder="Confirmar contraseña" name="contra2" required><br>
-                        <input type="date" id="Fecha" class="form-control" rows="4" placeholder="" required max="2022-11-20" value=""><br>
-                        <label>Actividad física: </label>
+                        <input type="text" id="NombreEdit" class="form-control" placeholder="Nombre" required minlength="3"><br>
+                        <input type="text" id="ApellidoEdit" class="form-control" placeholder="Apellido" required minlength="3"><br>
+                        <input type="email" id="CorreoEdit" class="form-control" placeholder="Correo" name="email" required minlength="10"><br>
+                        <input type="pass" id="ContraseniaEdit" class="form-control" placeholder="Contraseña " name="contra" required><br>
+                        <input type="date" id="FechaEdit" class="form-control" rows="4" placeholder="" required max="2022-11-20" value=""><br>
+                        <label id="ActividadEdit">Actividad física: </label>
                         <select>
                             <option value="1">Baja</option>
                             <option value="2">Media</option>
                             <option value="3">Alta</option>
                         </select><br>
-                        <label>Región:</label>
+                        <label id="RegionEdit">Región:</label>
                         <select>
                           <option value="1">Fría</option>
                           <option value="2">Templada</option>
                           <option value="3">Calurosa</option>
                         </select><br>
-                        <input type="number" id="Peso" class="form-control" placeholder="Peso (kg)" required min="20"><br>
-                        <input type="number" id="Estatura" class="form-control" placeholder="Estatura (cm)" required min="70"><br>
-                        <label><input type="radio" id="sexMC" name="test" value="Mujer" checked required> Mujer</label><br>
-                        <label><input type="radio" id="sexHC" name="test" value="Hombre" required> Hombre</label><br>
-                        <hr><label>URL de foto de perfil:</label>
-                        <input type="url" id="urlReg" class="form-control" placeholder="https://ejemplo.com" required minlength="3"><br>
-                        
-                        <button type="button" class="btn btn-primary mr-auto" onclick="alert('Edited')" ><i class="fa fa-edit"></i> Guardar cambios</button>
 
-                        <p></p><a href="LandingPage.html">Land</a></p>
+                        <input type="number" id="PesoEdit" class="form-control" placeholder="Peso (kg)" required min="20"><br>
+                        <input type="number" id="EstaturaEdit" class="form-control" placeholder="Estatura (cm)" required min="70"><br>
+                        <label><input type="radio" id="sexMEdit" name="test" value="Mujer" checked required> Mujer</label><br>
+                        <label><input type="radio" id="sexHEdit" name="test" value="Hombre" required> Hombre</label><br>
+                        <hr><label>URL de foto de perfil:</label>
+                        <input type="url" id="urlEdit" class="form-control" placeholder="https://ejemplo.com" required minlength="3"><br>
+                        
+                        <div class="row">
+                          <button id="BotonEditarUsuario" type="button" class="btn btn-primary ml-4" ><i class="fa fa-edit"></i> Guardar cambios</button>
+                          <a href="./LandingPage.html"><button type="button" class="btn btn-danger ml-4"><i class="fa fa-window-close"></i> Cancelar</button></a>
+                        </div>
+                        
+                        <!-- espacio para animación de carga-->
+                        <div id="LoadingAnimation" class="row justify-content-center">
+                          <br>
+                          <lottie-player 
+                          src="./ANIMATIONS/waves.json" background="transparent"  speed="1"  style="display: none; width: 100px; height: 100px;" loop autoplay></lottie-player>
+                        </div>
+
                     </div>
                 </form>
+
             </div>
+
           </div>
+
         </div>
     </div>
     </div>
 </div>
+  <script src="./EditUser.js"></script>
   </body>
 </html>

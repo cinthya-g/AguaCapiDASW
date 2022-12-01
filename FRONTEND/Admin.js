@@ -199,7 +199,7 @@ addDrinkButton.addEventListener('click', function (){
     let nombre = document.getElementById("NombreNuevaBebida").value;
     let cantidad = document.getElementById("CantidadNuevaBebida").value;
     let urlBebida = document.getElementById("URLNuevaBebida").value;
-    if(isBlank(urlBebida)){
+    if(urlBebida == "" || urlBebida == null){
         urlBebida = './IMAGES/DRINKS/default.png';
     }
     let xhr = new XMLHttpRequest();

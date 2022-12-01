@@ -462,50 +462,51 @@ app.put('/api/users/edit', (req,res)=>{
     let editedUser = {};
 
     // Verificar qué campos quiere editar de su perfil:
-    if(req.body.Nombre != undefined) {
+    if(req.body.Nombre != undefined && req.body.Nombre != "") {
         editedUser.Nombre = req.body.Nombre;
         updatedSomething = true;
     }
-    if(req.body.Apellido != undefined) {
+    if(req.body.Apellido != undefined && req.body.Apellido != "") {
         editedUser.Apellido = req.body.Apellido;
         updatedSomething = true;
     }
-    if(req.body.Correo != undefined) {
+    if(req.body.Correo != undefined && req.body.Correo != "") {
         editedUser.Correo = req.body.Correo;
         updatedSomething = true;
     }
-    if(req.body.Contrasenia != undefined) {
+    if(req.body.Contrasenia != undefined && req.body.Contrasenia != "") {
         editedUser.Contrasenia = bcrypt.hashSync(req.body.Contrasenia, 10);
         updatedSomething = true;
     }
-    if(req.body.Nacimiento != undefined) {
+    if(req.body.Nacimiento != undefined    && req.body.Nacimiento != "") {
         editedUser.Nacimiento = req.body.Nacimiento;
         updatedSomething = true;
     }
-    if(req.body.Actividad != undefined) {
+    if(req.body.Actividad != undefined && req.body.Actividad != "") {
         editedUser.Actividad = req.body.Actividad;
         updatedSomething = true;
     }
-    if(req.body.Region != undefined) {
+    if(req.body.Region != undefined && req.body.Region != "") {
         editedUser.Region = req.body.Region;
         updatedSomething = true;
     }
-    if(req.body.Peso != undefined) {
+    if(req.body.Peso != undefined && req.body.Peso != "") {
         editedUser.Peso = req.body.Peso;
         updatedSomething = true;
     }
-    if(req.body.Estatura != undefined) {
+    if(req.body.Estatura != undefined && req.body.Estatura != "") {
         editedUser.Estatura = req.body.Estatura;
         updatedSomething = true;
     }
-    if(req.body.Sexo != undefined) {
+    if(req.body.Sexo != undefined && req.body.Sexo != "") {
         editedUser.Sexo = req.body.Sexo;
         updatedSomething = true;
     }
-    if(req.body.UrlPicture != undefined) {
+    if(req.body.UrlPicture != undefined && req.body.UrlPicture != "") {
         editedUser.UrlPicture = req.body.UrlPicture;
         updatedSomething = true;
     }
+    console.log(chalk.red(updatedSomething));
 
     if(updatedSomething) {
         // Verificar que el correo no exista:
@@ -715,8 +716,8 @@ app.delete('/api/users/deleteliquid', (req,res)=>{
 app.get('/api/users/getinfo', (req,res)=>{
     // Recibimos: {IDUsuario}
     // Buscar usuario por el _id
-    console.log("id que buscas: " + req.body.id);
-    User.findOne({_id: req.body.id}, (err,doc)=>{
+    console.log("id que buscas: " + req.query.id);
+    User.findOne({_id: req.query.id}, (err,doc)=>{
         if(err) {
             res.status(500).send("Error al traer la información del usuario.");
             return;
@@ -729,6 +730,8 @@ app.get('/api/users/getinfo', (req,res)=>{
         }
     });
 });
+
+
 
 
 // ************************************************************************************************************************************
