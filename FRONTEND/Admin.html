@@ -41,9 +41,6 @@
       </p>
     </div>
   </div>
-
-
-
     <div style="display:block; width:100%">
         <div class="my-auto" style="width: 50%; float: left; display: inline-block;">
             <div class="sectionTitle"><h1>Bebidas del sistema</h1></div>
@@ -56,8 +53,8 @@
                   <button style="height: 150px; width:250px; border-radius:15px" data-toggle="modal" data-target="#modalAgregarBebida">
                     <a href="#" data-toggle="modal" data-target="#modalAgregarBebida"><i class="fa fa-plus"></i></i></a>
                   </button>
-                  <button style="height: 150px; width:250px; border-radius:15px" href="#" data-toggle="modal" data-target="#modalEliminarBebidaPorLista">
-                    <a href="#" data-toggle="modal" data-target="#modalEliminarBebidaPorLista"><i class="fa fa-minus"></i></i></a>
+                  <button style="height: 150px; width:250px; border-radius:15px" href="#" data-toggle="modal" data-target="#modalEliminarBebidaPorLista" id ="BotonModalEliminarBebida">
+                    <a href="#" data-toggle="modal" data-target="#modalEliminarBebidaPorLista" ><i class="fa fa-minus"></i></i></a>
                   </button>
                 </div>
                 <br> <br>
@@ -66,103 +63,11 @@
         <div style="width: 50%; float: left; display: inline-block;">
             <div class="sectionTitle"><h1>Usuarios registrados</h1></div>
             <!-- Insertar barra de búsqueda -->    
-    <div class="container">
-      <div class="row mt-4">
-          <div class="col-8"> <!-- Largo de la barra de búsqueda en cols -->
-              <div class="form-group">
-                  <input id="barraBusqueda" type="text" name="search" class="form-control" placeholder="Nombre o apellido de usuario a buscar"
-                      aria-describedby="helpId">
-                
-              </div><hr>
-          </div>
-          <div class="col-4">
-              <button type="button" class="btn btn-primary" href="#" onclick="filtrarPorNombre()">Buscar</button>
-          </div>
-      </div>
-
-            <div class="media col-12 mb-2">
-                <div class="media-left mb-1 mt-1 mr-1"> <img src="./IMAGES/randImg24.jpeg" class="rounded-circle user" alt=""></div>
-                <div class="media-body">
-                  <b>John Doe</b> <br>
-                  Correo: johndoe@gmail.com <br>
-                  Password: holaj4 <br>
-                  Fecha: 2000-02-01 <br>
-                  Sexo: H <br>
-                </div>
-                <div class="media-right align-self-center">
-                  <div class="col-1">
-                  <button class="btn btn-primary mb-1"><i class="fa fa-search" style="width: 15px;"></i></button>
-                  <button class="btn btn-primary mb-1"><i class="fa fa-bars" style="width: 15px;"></i></button>
-                  <button class="btn btn-primary" data-toggle="modal" data-target="#deleteUser"><i class="fa fa-trash" style="width: 15px;"></i></button>
-                </div>
-                </div>
-            </div>
-            <div class="media col-12 mb-2">
-                <div class="media-left mb-1 mt-1 mr-1"> <img src="./IMAGES/randImg0.jpeg" class="rounded-circle user" alt=""></div>
-                <div class="media-body">
-                  <b>Kyoshi Yak</b> <br>
-                  Correo: kaas@gmail.com <br>
-                  Password: hola2 <br>
-                  Fecha: 2000-02-01 <br>
-                  Sexo: M <br>
-                </div>
-                <div class="media-right align-self-center">
-                  <div class="col-1">
-                  <button class="btn btn-primary mb-1"><i class="fa fa-search" style="width: 15px;"></i></button>
-                  <button class="btn btn-primary mb-1"><i class="fa fa-bars" style="width: 15px;"></i></button>
-                  <button class="btn btn-primary" data-toggle="modal" data-target="#deleteUser"><i class="fa fa-trash" style="width: 15px;"></i></button>
-                </div>
-                </div>
-            </div>
-              <div class="media col-12 mb-2">
-                <div class="media-left mb-1 mt-1 mr-1"> <img src="./IMAGES/randImg24.jpeg" class="rounded-circle user" alt=""></div>
-                <div class="media-body">
-                  <b>John Doe</b> <br>
-                  Correo: johndoe@gmail.com <br>
-                  Password: holaj4 <br>
-                  Fecha: 2000-02-01 <br>
-                  Sexo: H <br>
-                </div>
-                <div class="media-right align-self-center">
-                  <div class="col-1">
-                  <button class="btn btn-primary mb-1"><i class="fa fa-search" style="width: 15px;"></i></button>
-                  <button class="btn btn-primary mb-1"><i class="fa fa-bars" style="width: 15px;"></i></button>
-                  <button class="btn btn-primary" data-toggle="modal" data-target="#deleteUser"><i class="fa fa-trash" style="width: 15px;"></i></button>
-                </div>
-                </div>
-            </div>
-            <div class="media col-12 mb-2">
-                <div class="media-left mb-1 mt-1 mr-1"> <img src="./IMAGES/randImg0.jpeg" class="rounded-circle user" alt=""></div>
-                <div class="media-body">
-                  <b>Kyoshi Yak</b> <br>
-                  Correo: kaas@gmail.com <br>
-                  Password: hola2 <br>
-                  Fecha: 2000-02-01 <br>
-                  Sexo: M <br>
-                </div>
-                <div class="media-right align-self-center">
-                  <div class="col-1">
-                  <button class="btn btn-primary mb-1"><i class="fa fa-search" style="width: 15px;"></i></button>
-                  <button class="btn btn-primary mb-1"><i class="fa fa-bars" style="width: 15px;"></i></button>
-                  <button class="btn btn-primary" data-toggle="modal" data-target="#deleteUser"><i class="fa fa-trash" style="width: 15px;"></i></button>
-                </div>
-                </div>
-            </div>
-
-
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                </ul>
-              </nav>
-        </div>      
-        </div>
+    <div class="container" id = "userContainter">
+    </div>      
     </div>
-</div>
+  </div>
+</div >
 
 <div class="modal fade" id="modalAgregarBebida" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -176,10 +81,10 @@
             <div class="modal-body">
                 <form action="" onsubmit="alert('Registro Exitoso!');">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Nombre de la bebida" required> <br>
-                    <input type="text" class="form-control" placeholder="Cantidad (ml)" required> <br>
-                    <input type="url" class="form-control" placeholder="URL imagen" required> <br>
-                    <button type="submit" class="btn btn-success" onclick="alert('Bebida Agregada!')" >Agregar</button>
+                    <input type="text" class="form-control" placeholder="Nombre de la bebida" required id="NombreNuevaBebida"> <br>
+                    <input type="text" class="form-control" placeholder="Cantidad (ml)" required id ="CantidadNuevaBebida"> <br>
+                    <input type="url" class="form-control" placeholder="URL imagen" id = "URLNuevaBebida"> <br>
+                    <button type="submit" class="btn btn-success" id = "BotonAgregarBebida">Agregar</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
                 </form>
@@ -221,40 +126,7 @@
                     </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <div class="media col-12 mb-2">
-                        <div class="media-left mb-1 mt-1 mr-1"> <img src="./src/water.png" class="rounded-circle" alt=""></div>
-                        <div class="media-body">
-                          <b>Bebida 1</b> <br>
-                        </div>
-                        <div class="media-right align-self-center">
-                          <div class="col-1">
-                          <button class="btn btn-primary" data-toggle="modal" data-target="#deleteUser" onclick="alert('Bebida 1 eliminada')"><i class="fa fa-trash" ></i></button>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="media col-12 mb-2">
-                        <div class="media-left mb-1 mt-1 mr-1"> <img src="./src/water.png" class="rounded-circle" alt=""></div>
-                        <div class="media-body">
-                          <b>Bebida 2</b> <br>
-                        </div>
-                        <div class="media-right align-self-center">
-                          <div class="col-1">
-                          <button class="btn btn-primary" data-toggle="modal" data-target="#deleteUser" onclick="alert('Bebida 2 eliminada')"><i class="fa fa-trash"></i></button>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="media col-12 mb-2">
-                        <div class="media-left mb-1 mt-1 mr-1"> <img src="./src/water.png" class="rounded-circle" alt=""></div>
-                        <div class="media-body">
-                          <b>Bebida 3</b> <br>
-                        </div>
-                        <div class="media-right align-self-center">
-                          <div class="col-1">
-                          <button class="btn btn-primary" data-toggle="modal" data-target="#deleteUser" onclick="alert('Bebida 3 eliminada')"><i class="fa fa-trash"></i></button>
-                        </div>
-                        </div>
-                    </div>
+                <div class="form-group" id="ListaBebidasModal">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
                 </form>
@@ -279,7 +151,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <a href="Home.html"><button class="btn btn-danger">Cerrar sesión</button></a>
+        <a href="Home.html"><button class="btn btn-danger" id = "BotonCerrarSesion">Cerrar sesión</button></a>
         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
       </div>
     </div>
@@ -291,6 +163,8 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="./SignOut.js"></script>
+    <script src="./Admin.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </body>
 </html>

@@ -34,7 +34,7 @@ x-user-token: admintoken
 ### FILTRAR USUARIOS CON ADMIN TOKEN INCORRECTO (no deja)
 GET http://localhost:3000/api/admin/search?nombre=k
 content-type: application/json
-x-user-token: zLGr2M1yA2-6382a29df4fc17346a204c1f
+x-user-token: admintoken
 
 ### FILTRAR USUARIOS CON ID
 GET http://localhost:3000/api/admin/search?id=6382a29df4fc17346a204c1f
@@ -46,6 +46,11 @@ DELETE http://localhost:3000/api/admin/deleteuser?id=6383989ccbebeaa528811626
 content-type: application/json
 x-user-token: admintoken
 
+### ELIMINAR USUARIO COMO ADMIN
+DELETE http://localhost:3000/api/admin/deleteuser?id=63840a1099505b3b1a5ca593
+content-type: application/json
+x-user-token: zLGr2M1yA2-6382a29df4fc17346a204c1f
+
 
 ### CREAR BEBIDA DEFAULT
 POST http://localhost:3000/api/admin/addliquid
@@ -53,9 +58,9 @@ content-type: application/json
 x-user-token: admintoken
 
 {
-    "Nombre": "Electrolit",
-    "Cantidad": 400,
-    "URL": "https://res.cloudinary.com/walmart-labs/image/upload/d_default.jpg/w_960,dpr_auto,f_auto,q_auto:best/gr/images/product-images/img_large/00750112511856L.jpg"
+    "Nombre": "Infusión",
+    "Cantidad": 250,
+    "URL": "./IMAGES/DRINKS/te.jpg"
 }
 
 ### CREAR BEBIDA DEFAULT
@@ -66,7 +71,7 @@ x-user-token: admintoken
 {
     "Nombre": "Agua natural",
     "Cantidad": 600,
-    "URL": "../IMAGES/DRINKS/agua.jpg"
+    "URL": "./IMAGES/DRINKS/agua.jpg"
 }
 
 ### CREAR BEBIDA DEFAULT
@@ -77,12 +82,12 @@ x-user-token: admintoken
 {
     "Nombre": "Café",
     "Cantidad": 250,
-    "URL": "../IMAGES/cafe.jpg"
+    "URL": "./IMAGES/DRINKS/cafe.jpg"
 }
 
 
-### BORRAR BEBIDA DEFAULT
-DELETE http://localhost:3000/api/admin/deleteliquid?id=6383be9c5223e259cd5ab060
+### BORRAR BEBIDA DEFAULT USANDO EL ID DE LA BEBIDA EN QUERY
+DELETE http://localhost:3000/api/admin/deleteliquid?id=6384c05e92f0c53a1778edf4
 content-type: application/json
 x-user-token: admintoken
 
@@ -114,106 +119,31 @@ POST http://localhost:3000/api/users/register
 content-type: application/json
 
 {
-    "Nombre": "Yeso",
+    "Nombre": "José",
     "Apellido": "Torres",
-    "Correo": "yt@email.com",
-    "Contrasenia": "adsdfsdf",
-    "Nacimiento": "2002-02-01",
-    "Actividad": "MEDIA",
-    "Region": "TEMPLADA",
-    "Peso": 54,
-    "Estatura": 160,
-    "Sexo": "M",
-    "StatsData": true,
-    "UrlPicture": ""
-}
-
-### REGISTRAR USUARIO
-POST http://localhost:3000/api/users/register
-content-type: application/json
-
-{
-    "Nombre": "Gupilio",
-    "Apellido": "Gopez",
-    "Correo": "kiw@gmail.com",
-    "Contrasenia": "kiw2",
-    "Nacimiento": "2016-01-05",
+    "Correo": "joset@email.com",
+    "Contrasenia": "nn83df",
+    "Nacimiento": "2000-10-01",
     "Actividad": "BAJA",
-    "Region": "TEMPLADA",
-    "Peso": 11,
-    "Estatura": 80,
-    "Sexo": "H",
-    "StatsData": true,
-    "UrlPicture": ""
-}
-
-###  REGISTRAR USUARIO
-POST http://localhost:3000/api/users/register
-content-type: application/json
-
-{
-    "Nombre": "Carlos",
-    "Apellido": "Ponce",
-    "Correo": "charles@gmail.com",
-    "Contrasenia": "mariobros",
-    "Nacimiento": "2001-12-29",
-    "Actividad": "BAJA",
-    "Region": "TEMPLADA",
-    "Peso": 70,
-    "Estatura": 188,
-    "Sexo": "H",
-    "StatsData": true,
-    "UrlPicture": ""
-}
-
-### REGISTRAR USUARIO
-POST http://localhost:3000/api/users/register
-content-type: application/json
-
-{
-    "Nombre": "Iker",
-    "Apellido": "Johannsen",
-    "Correo": "ijk@gmail.com",
-    "Contrasenia": "bab4s",
-    "Nacimiento": "1999-08-02",
-    "Actividad": "MEDIA",
     "Region": "CALUROSA",
-    "Peso": 75,
-    "Estatura": 184,
+    "Peso": 90,
+    "Estatura": 178,
     "Sexo": "H",
     "StatsData": true,
-    "UrlPicture": ""
+    "UrlPicture": "https://image.shutterstock.com/mosaic_250/2780032/1714666150/stock-photo-head-shot-portrait-close-up-smiling-confident-businessman-wearing-glasses-looking-at-camera-1714666150.jpg"
 }
 
-### REGISTRAR USUARIO
-POST http://localhost:3000/api/users/register
-content-type: application/json
 
-{
-    "Nombre": "Jorge",
-    "Apellido": "Tovar",
-    "Correo": "jorget@gmail.com",
-    "Contrasenia": "batman",
-    "Nacimiento": "1998-08-01",
-    "Actividad": "MEDIA",
-    "Region": "TEMPLADA",
-    "Peso": 80,
-    "Estatura": 171,
-    "Sexo": "H",
-    "StatsData": true,
-    "UrlPicture": ""
-}
-
-### INICIAR SESION CON TOKEN
+### INICIAR SESION PARA OBTENER TOKEN
 POST http://localhost:3000/api/users/login
 content-type: application/json
 
 {
-    "Correo": "jorget@gmail.com",
-    "Contrasenia": "batman"
+    "Correo": "cg@email.com",
+    "Contrasenia": "123456"
 }
 
-### INICIAR SESION CON TOKEN
+### INICIAR SESION CON TOKEN (NO EXISTE EL CORREO)
 POST http://localhost:3000/api/users/login
 content-type: application/json
 
@@ -227,161 +157,85 @@ POST http://localhost:3000/api/users/login
 content-type: application/json
 
 {
-    "Correo": "charles@gmail.com",
-    "Contrasenia": "mariobros"
+    "Correo": "joset@email.com",
+    "Contrasenia": "nn83df"
 }
 
-### INICIAR SESION CON TOKEN
-POST http://localhost:3000/api/users/login
-content-type: application/json
-
-{
-    "Correo": "cg@email.com",
-    "Contrasenia": "123456"
-}
-
-### INICIAR SESION CON TOKEN
-POST http://localhost:3000/api/users/login
-content-type: application/json
-
-{
-    "Correo": "ikj2@email.com",
-    "Contrasenia": "b4b4sas"
-}
 
 ###  EDITAR USUARIO CON TOKEN (no debe contener todos los campos obligatoriamente)
-PUT http://localhost:3000/api/users/edit?id=6383c1b31bb58ae59ebb57f4
+PUT http://localhost:3000/api/users/edit?id=6384c30419f4ae840c1be498
 content-type: application/json
-x-user-token: 9Y3eO7l5hd-6383c1b31bb58ae59ebb57f4
+x-user-token: iPwE9j5N11-6384c30419f4ae840c1be498
 
 {
-    "Nombre": "Carlos",
-    "Correo": "mariobros@gmail.com",
-    "Contrasenia": "Kingboo",
-    "Region": "FRIA"
+    "Nombre": "José",
+    "Correo": "jtrs@gmail.com",
+    "Contrasenia": "nuevapass",
+    "Region": "CALUROSA"
 }
 
-###
-PUT http://localhost:3000/api/users/edit?id=6383989ccbebeaa528811626
+### EDITAR USUARIO
+PUT http://localhost:3000/api/users/edit?id=6384c1a8d95a822a1cedb311
 content-type: application/json
-x-user-token: qUCrbme4cT-6383989ccbebeaa528811626
+x-user-token: Ixt97gJ4dd-6384c1a8d95a822a1cedb311
 
 {
-    "Nombre": "Kiker",
-    "Apellido": "Johannsen",
-    "Correo": "ikrj@email.com",
-    "Contrasenia": "b4b4sas",
-    "Nacimiento": "1999-09-09",
-    "Actividad": "MEDIA",
-    "Region": "CALUROSA",
-    "Peso": 75,
-    "Estatura": 183,
-    "Sexo": "H",
-    "StatsData": true
+    "Apellido": "García",
+    "Correo": "clgg@gmai.com",
+    "Contrasenia": "pass09",
+    "Region": "TEMPLADA",
+    "Nacimiento": "2002-03-04"
 }
 
-
-### AGREGAR CONSUMO DEFAULT A USUARIO GUPILIO
+### AÑADIR CONSUMO DEFAULT COMO USUARIO
 POST http://localhost:3000/api/users/addliquid
 content-type: application/json
-x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
+x-user-token: Ixt97gJ4dd-6384c1a8d95a822a1cedb311
 
 {
-    "IDUsuario": "6382a29ef4fc17346a204c22",
-    "IDBebida": "6383bcdb7882fdf995d4d5cb"
+    "IDUsuario": "6384c1a8d95a822a1cedb311",
+    "IDBebida": "6384c166d95a822a1cedb30e"
 }
 
-### AGREGAR CONSUMO PERSONALIZADO A GUPILIO
+### AÑADIR CONSUMO PERSONALIZADO A USUARIO
 POST http://localhost:3000/api/users/addliquid
 content-type: application/json
-x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
+x-user-token: Ixt97gJ4dd-6384c1a8d95a822a1cedb311
 
 {
-    "IDUsuario": "6382a29ef4fc17346a204c22",
-    "NombreBebida": "Coca en bolsa",
-    "Cantidad": 700
+    "IDUsuario": "6384c1a8d95a822a1cedb311",
+    "Cantidad": 310,
+    "NombreBebida": "Té hierbabuena"
 }
 
-### AGREGAR CONSUMO PERSONALIZADO A GUPILIO
+
+### AÑADIR CONSUMO PERSONALIZADO A USUARIO
 POST http://localhost:3000/api/users/addliquid
 content-type: application/json
-x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
+x-user-token: Ixt97gJ4dd-6384c1a8d95a822a1cedb311
 
 {
-    "IDUsuario": "6382a29ef4fc17346a204c22",
-    "NombreBebida": "Tonicol",
-    "Cantidad": 355
+    "IDUsuario": "6384c30419f4ae840c1be498",
+    "Cantidad": 220,
+    "NombreBebida": "Pepsi"
 }
 
-### AÑADIR CONSUMO A GUPILIO
-POST http://localhost:3000/api/users/addliquid
-content-type: application/json
-x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
-
-{
-    "IDUsuario": "6382a29ef4fc17346a204c22",
-    "NombreBebida": "Coca en bolsa",
-    "Cantidad": 700
-}
-
-### AÑADIR CONSUMO A GUPILIO
-POST http://localhost:3000/api/users/addliquid
-content-type: application/json
-x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
-
-{
-    "IDUsuario": "6382a29ef4fc17346a204c22",
-    "NombreBebida": "Boing de mango",
-    "Cantidad": 250
-}
-
-### AÑADIR CONSUMO A GUPILIO
-POST http://localhost:3000/api/users/addliquid
-content-type: application/json
-x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
-
-{
-    "IDUsuario": "6382a29ef4fc17346a204c22",
-    "NombreBebida": "Boing de mango",
-    "Cantidad": 500
-}
-
-### ELIMINAR CONSUMO A GUPILIO
+### ELIMINAR CONSUMO DEFAULT A USUARIO
 DELETE http://localhost:3000/api/users/deleteliquid
 content-type: application/json
-x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
+x-user-token: Ixt97gJ4dd-6384c1a8d95a822a1cedb311
 
 {
-    "IDUsuario": "6382a29ef4fc17346a204c22",
-    "NombreBebida": "Boing de mango"
+    "IDUsuario": "6384c1a8d95a822a1cedb311",
+    "NombreBebida": "Agua natural"
 }
 
-### ELIMINAR CONSUMO A GUPILIO
+### ELIMINAR CONSUMO PERSONALIZADO A USUARIO
 DELETE http://localhost:3000/api/users/deleteliquid
 content-type: application/json
-x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
+x-user-token: Ixt97gJ4dd-6384c1a8d95a822a1cedb311
 
 {
-    "IDUsuario": "6382a29ef4fc17346a204c22",
-    "NombreBebida": "Boing de mango"
-}
-
-### ELIMINAR CONSUMO A GUPILIO
-DELETE http://localhost:3000/api/users/deleteliquid
-content-type: application/json
-x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
-
-{
-    "IDUsuario": "6382a29ef4fc17346a204c22",
-    "NombreBebida": "Coca en bolsa"
-}
-
-### ELIMINAR CONSUMO A GUPILIO
-DELETE http://localhost:3000/api/users/deleteliquid
-content-type: application/json
-x-user-token: mG2FZh1HE1-6382a29ef4fc17346a204c22
-
-{
-    "IDUsuario": "6382a29ef4fc17346a204c22",
-    "NombreBebida": "Tonicol"
+    "IDUsuario": "6384c1a8d95a822a1cedb311",
+    "NombreBebida": "Té hierbabuena"
 }

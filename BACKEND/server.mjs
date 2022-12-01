@@ -4,6 +4,7 @@ import chalk from "chalk";
 import cors from "cors";
 import randomize from "randomatic";
 import bcrypt from "bcrypt";
+import e from "express";
 
 const app = express();
 const port = 3000;
@@ -60,7 +61,7 @@ let userSchema = mongoose.Schema({
     },
     Region: {
         type: String,
-        enum: ["FRÍA", "TEMPLADA", "CALUROSA"],
+        enum: ["FRIA", "TEMPLADA", "CALUROSA"],
         required: true
     },
     Peso: {
@@ -159,17 +160,20 @@ function updateMeta(idUsuario){
                 sumaMeta += consumo.Cantidad;
             });
         }
+
+            // Buscar el usuario que tiene ese id y actualizar su meta (lo que lleva)
+            User.findOne({_id: idUsuario}, (err, usuario) => {
+                if(err){
+                    console.log(err);
+                } else {
+                    console.log("SumaMeta: "+ sumaMeta);
+                    usuario.Meta = sumaMeta;
+                    console.log(chalk.bgGreen("La meta de "+ usuario.Nombre +" es: "+ usuario.Meta));
+                    usuario.save();
+                }
+            });
     });
-    // Buscar el usuario que tiene ese id y actualizar su meta
-    User.findOne({_id: idUsuario}, (err, usuario) => {
-        if(err){
-            console.log(err);
-        } else {
-            usuario.Meta = sumaMeta;
-            console.log(chalk.bgGreen("La meta de "+ usuario.Nombre +" es: "+ usuario.Meta));
-            usuario.save();
-        }
-    });
+
 }
 
 
@@ -330,7 +334,9 @@ app.post('/api/users/register',(req,res)=> {
                             Sexo: req.body.Sexo,
                             StatsData: req.body.StatsData,
                             UrlPicture: newUserUrl,
-                            Token: token
+                            Token: token,
+                            Meta: 0,
+                            MetaObjetivo: 2000
                         });
                         // Guardar el usuario:
                         newUser.save((err, doc)=>{
@@ -427,6 +433,7 @@ app.post('/api/users/login', (req,res)=>{
                 }
                 else {
                     // Si la contraseña es incorrecta:
+                    
                     res.status(401).send("La contraseña ingresada es incorrecta.");
                     return;
                 }
@@ -575,6 +582,7 @@ app.post('/api/users/addliquid', (req,res)=>{
                 // Se añade el consumo nuevo creado:
                 newConsumo.save((err,doc)=>{
                     if(err) {
+                        updateMeta(req.body.IDUsuario);
                         res.status(500).send("Error al guardar el consumo.");
                         return;
                     }
@@ -627,6 +635,7 @@ app.post('/api/users/addliquid', (req,res)=>{
                 // Se añade el consumo nuevo creado:
                 newConsumo.save((err,doc)=>{
                     if(err) {
+                        updateMeta(req.body.IDUsuario);
                         res.status(500).send("Error al guardar el consumo.");
                         return;
                     }
@@ -664,12 +673,19 @@ app.delete('/api/users/deleteliquid', (req,res)=>{
         if(err) {
             res.status(500).send("Error al eliminar el consumo.");
             return;
-        }
+        }        
         else {
+            console.log(chalk.green("Se eliminó el consumo: " + doc));
+
             // Eliminar la bebida vinculada a ese consumo
             Liquid.findOneAndDelete({Nombre: req.body.NombreBebida, IDPertenenciaUsuario: req.body.IDUsuario}, (err,doc)=>{
                 if(err) {
-                    res.status(500).send("Error al eliminar la bebida.");
+                    res.status(500).send("No se puede eliminar la bebida");
+                    return;
+                }s
+                if( doc == null || doc.length <= 0) {
+                    updateMeta(req.body.IDUsuario);
+                    res.status(401).send("No hay bebida con ese nombre.")
                     return;
                 }
                 // Si se eliminó correctamente:
@@ -788,18 +804,23 @@ app.delete('/api/admin/deleteuser', (req,res)=>{
     201 si se agregó correctamente
 */
 app.post('/api/admin/addliquid', (req,res)=>{
+    let url = '';
+    if(req.body.URL != undefined && req.body.URL !=' '){
+        url = req.body.URL
+    }else{
+        url = './IMAGES/DRINKS/default.png';
+    }    
     let nuevaBebida = new Liquid({
         Nombre : req.body.Nombre,
         Cantidad : req.body.Cantidad,
-        URL : req.body.URL,
+        URL : url,
         IDPertenenciaUsuario : "default"
     });
     nuevaBebida.save((err,doc)=> {
         if(err) {
             res.status(500).send("Error al guardar la bebida.");
             return;
-        }
-        else {
+        }else{
             console.log("Bebida agregada: ");
             console.log(doc);
             res.status(201).send(doc);
@@ -830,6 +851,39 @@ app.delete('/api/admin/deleteliquid', (req,res)=>{
             console.log(docs);
             res.status(200).send(docs);
 
+            return;
+        }
+    });
+});
+
+// ------ GET BEBIDAS ------------
+/* GET /api/admin/getliquids
+    Se utiliza para sacar las bebida default de la base de datos.
+    PAra poder mostrar las bebidas al Admin y pueda modificarlas.
+    Debe verificar que el token del admin sea correcto.
+    ---------------------------------------------
+    STATUS CODES:
+    403 si falta el token (middleware)
+    500 si hay un error en la base de datos
+    200 si se encontrarion correctamente
+*/
+app.get('/api/admin/getliquids', (req, res) =>{
+    let nombre = req.query.nombre;
+    let id = 'default'
+    let filtro = {}
+    filtro.IDPertenenciaUsuario = {$regex : id};
+    if(nombre != undefined){
+        filtro.Nombre = {$regex : nombre};
+    }
+    Liquid.find(filtro, (err, docs)=>{
+        if(err) {
+            res.status(500).send("Error al buscar las bebidas.");
+            return;
+        }
+        else {
+            console.log("Bebidas encontrados: ");
+            console.log(docs);
+            res.status(200).send(docs);
             return;
         }
     });

@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- HECHA POR IKER -->
+
 <html lang="en">
   <head>
     <title>LoginUser</title>
@@ -35,7 +35,7 @@
       
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
@@ -75,20 +75,31 @@
 							<span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 		            	</div>
 		            	<div class="form-group">
-		            		<button type="submit" class="form-control btn btn-primary rounded submit px-3" onclick="alert('Login')"><i class="fa fa-sign-in"></i> Iniciar sesión</button>
+		            		<button type="button" class="form-control btn btn-primary rounded submit px-3" id = "logInButton"><i class="fa fa-sign-in"></i> Iniciar sesión</button>
 						</div>
 		        	</form>
 						<p class="text-center">¿Todavía no tienes cuenta?  <a href="CreateUser.html">Regístrate</a></p>
-						<a href="Home.html">TempHome</a><br>
-						<a href="LandingPage.html">Land</a><br>
-						<a href="Admin.html">Soy Admin</a></p>
-
 		        	</div>
+
+					<!-- espacio para animación de carga-->
+					<div id="LoadingAnimation" class="row justify-content-center">
+						<br>
+							<lottie-player 
+							src="./ANIMATIONS/loading.json" background="transparent"  speed="1"  style="display: none; width: 100px; height: 100px;"
+							loop autoplay></lottie-player>
+					</div>
 		      			</div>
 					</div>
 			</div>
 		</div>
+
+		
       
   	</div>
+	<script src="./Login.js" type="module"></script>
+
+	<!-- Lottie -->
+	<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
   </body>
 </html>

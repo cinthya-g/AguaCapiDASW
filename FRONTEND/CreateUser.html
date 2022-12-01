@@ -65,25 +65,25 @@
                         <input type="email" id="CorreoReg" class="form-control" placeholder="Correo" name="email" required minlength="10"><br>
                         <input type="password" id="ContraseniaReg" class="form-control" placeholder="Contraseña " name="contra" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters" required><br>
                         <input type="password" id="Contrasenia2Reg" class="form-control" placeholder="Confirmar contraseña" name="contra2" required><br>
-                        <input type="date" id="NacimientoReg" class="form-control" rows="4" placeholder="" required max="2050-11-20" value="Registrasrse"><br>
+                        <input type="date" id="NacimientoReg" class="form-control" rows="4" placeholder="" required max="2050-11-20" value="Registrarse"><br>
                         <label>Actividad física: </label>
-                        <select>
-                            <option value="1">Baja</option>
+                        <select id = "ActividadReg">
+                            <option value="1" selected>Baja</option>
                             <option value="2">Media</option>
                             <option value="3">Alta</option>
                         </select><br>
                         <label>Región:</label>
-                        <select>
-                          <option value="1">Fría</option>
+                        <select id = "RegionReg">
+                          <option value="1" selected>Fría</option>
                           <option value="2">Templada</option>
                           <option value="3">Calurosa</option>
                         </select><br><br>
-                        <input type="number" id="Peso" class="form-control" placeholder="Peso (kg)" required min="20"><br>
-                        <input type="number" id="Estatura" class="form-control" placeholder="Estatura (cm)" required min="70"><br>
+                        <input type="number" id="PesoReg" class="form-control" placeholder="Peso (kg)" required min="20"><br>
+                        <input type="number" id="EstaturaReg" class="form-control" placeholder="Estatura (cm)" required min="70"><br>
                         <label><input type="radio" id="sexMCReg" name="test" value="Mujer" checked required> Mujer</label><br>
                         <label><input type="radio" id="sexHCReg" name="test" value="Hombre" required> Hombre</label><br>
                         <hr><label>URL de foto de perfil:</label>
-                        <input type="url" id="urlReg" class="form-control" placeholder="https://ejemplo.com" required minlength="3"><br>
+                        <input type="url" id="urlReg" class="form-control" placeholder="https://ejemplo.com" minlength="3"><br>
 
                         <div class="w-80 text-left">
                           <div class="form-group d-md-flex">
@@ -94,20 +94,34 @@
                           </div>
                         </div>
                         
-                      <button type="submit" class="form-control btn btn-primary rounded submit px-3" ><i class="fa fa-plus"></i> Registrarse</button>
+                      <button type="button" class="form-control btn btn-primary rounded submit px-3" id = "BotonReg"><i class="fa fa-plus"></i> Registrarse</button>
                     </div>
                   </form>
 
                 <p class="text-center">¿Ya tienes cuenta?  <a href="Login.html">Inicia sesión</a></p>
-                <a href="Home.html">TempHome</a><br>
-                <a href="LandingPage.html">Land</a></p>
+                  
+              <!-- espacio para animación de carga-->
+              <div id="LoadingAnimation" class="row justify-content-center">
+                <br>
+                  <lottie-player 
+                  src="./ANIMATIONS/loading.json" background="transparent"  speed="1"  style="display: none; width: 100px; height: 100px;"
+                  loop autoplay></lottie-player>
+
+              </div>
             </div>
           </div>
             </div>
         </div>
     </div>
+
+
   
 </div>
-    
+    <script src="./CreateUser.js"></script>
+
+    	<!-- Lottie -->
+	<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+
   </body>
 </html>
