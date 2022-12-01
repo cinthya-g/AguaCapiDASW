@@ -4,7 +4,8 @@ let url = 'http://localhost:3000/api/users/';
 
 function showLoadingAnimation() {
     console.log("Cargando...");
-    document.querySelector('lottie-player').style.display = 'block';
+    document.querySelector('lottie-player').style.display = 'inline-block';
+    console.log("mostró lottie");
     setTimeout(function(){
         document.querySelector('lottie-player').style.display = 'none';
         redirect();
