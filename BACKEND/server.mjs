@@ -9,8 +9,10 @@ import url from "url";
 import path from "path";
 
 // Constantes de render
+/*
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+*/
 
 //------------------------------------------------
 
@@ -19,7 +21,7 @@ const port = 3000;
 
 //USAMOS EL DIRNAME:
 //app.use(express.static(__dirname + '/public'));
-app.use(express.static('../FRONTEND'));
+//app.use(express.static(__dirname+'../FRONTEND/IMAGES/'));
 //--------------------------------
 
 app.use(cors({
@@ -33,14 +35,14 @@ app.listen(port,()=>{
 }); 
 
 
-//------
+/*
 
 app.get('/', (req, res) => {
     console.log(chalk.blue("Entró a la raíz"));
     //res.send('Raíz del sitio');
     res.sendFile(path.join(__dirname, '../FRONTEND/Home.html'));
 });
-//-----
+*/
 
 let mongoConnection = "mongodb+srv://AguaCapi:AguaCapi@aguacapidb.hcfhc8j.mongodb.net/AguaCapiDB";
 let db = mongoose.connection;
