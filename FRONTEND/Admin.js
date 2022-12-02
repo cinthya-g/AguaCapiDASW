@@ -35,7 +35,7 @@ function initData(pageNum, usuarios){
 
 function usersToHTML(usuarios){
     let bigDiv = document.getElementById("userContainter")
-    bigDiv.innerHTML = '';
+    bigDiv.innerHTML = ''
     addSearchBar(bigDiv, "Usuarios", "Nombre o apellido de usuario a buscar");
     for(let i of usuarios){
         userToHTML(i, bigDiv);
@@ -91,7 +91,28 @@ function userToHTML(usuario, div){
     iInfo.style = "width:15px;";
     buttonInfo.appendChild(iInfo);
     buttonInfo.addEventListener('click', function (){
-        alert('Mostrar info');
+        let modalTitle = document.getElementById("modalTitleUserName");
+        modalTitle.innerText = usuario.Nombre + " " + usuario.Apellido;
+        let modalUserPhoto = document.getElementById("modalInfoFoto");
+        modalUserPhoto.src = usuario.UrlPicture;
+        let modalInfoSince = document.getElementById("modalInfoSince");
+        modalInfoSince.innerHTML = `<b>Usuario de AguaCapi desde:</b> ${usuario.Registro}`;
+        let modalInfoNacimiento = document.getElementById("modalInfoNacimiento");
+        modalInfoNacimiento.innerHTML = `<b>Fecha de nacimiento:</b> ${usuario.Nacimiento}`;
+        let modalInfoRegion = document.getElementById("modalInfoRegion");
+        modalInfoRegion.innerHTML = `<b>Región:</b> ${usuario.Region}`;
+        let modalInfoActividad = document.getElementById("modalInfoActividad");
+        modalInfoActividad.innerHTML = `<b>Actividad física:</b> ${usuario.Actividad}`;
+        let modalInfoPeso = document.getElementById("modalInfoPeso");
+        modalInfoPeso.innerHTML = `<b>Peso:</b> ${usuario.Peso} kg`;
+        let modalInfoEstatura = document.getElementById("modalInfoEstatura");
+        modalInfoEstatura.innerHTML = `<b>Estatura:</b> ${usuario.Estatura} cm`;
+        let modalInfoSexo = document.getElementById("modalInfoSexo");
+        modalInfoSexo.innerHTML = `<b>Sexo:</b> ${usuario.Sexo}`;
+        let modalInfoCorreo = document.getElementById("modalInfoCorreo");
+        modalInfoCorreo.innerHTML = `<b>Correo:</b> ${usuario.Correo}`;
+
+        $('#modalInformacionUsuario').modal('show');
     });
 
     let buttonDelete = document.createElement('button');
@@ -103,7 +124,20 @@ function userToHTML(usuario, div){
     iDelete.style = "width:15px;";
     buttonDelete.appendChild(iDelete);
     buttonDelete.addEventListener('click', function (){
-        alert('Borrar Usuario');
+        let xhr = new XMLHttpRequest();
+        xhr.open('DELETE', url + 'deleteuser?id='+usuario._id);
+        xhr.setRequestHeader('x-user-token', localStorage.getItem("token"));
+        xhr.send()
+        xhr.onload = function (){
+            if (xhr.status != 200) { // analizar el estatus de la respuesta HTTP
+                // Ocurrió un error
+                console.log(xhr.statusText);
+                // ejecutar algo si error
+            } else {
+                alert('Usuario Eliminado');
+                window.location.href ="./Admin.html"
+            }
+        }
     })
 
     //divButtonsCol.appendChild(iSearch);
@@ -199,7 +233,7 @@ addDrinkButton.addEventListener('click', function (){
     let nombre = document.getElementById("NombreNuevaBebida").value;
     let cantidad = document.getElementById("CantidadNuevaBebida").value;
     let urlBebida = document.getElementById("URLNuevaBebida").value;
-    if(urlBebida == "" || urlBebida == null){
+    if(isBlank(urlBebida)){
         urlBebida = './IMAGES/DRINKS/default.png';
     }
     let xhr = new XMLHttpRequest();
@@ -347,6 +381,8 @@ function drinkToHTML(bebida, mainDiv){
     divCol.appendChild(divButton);
 
     mainDiv.appendChild(divCol);
+
+    //"olo".test()
 }
 
 function isBlank(str) {

@@ -47,32 +47,20 @@
   
   <div class="row">
     <!-- DIV PADRE: media -->
-    <div id="userCard" class="media col-12 mt-2 mb-2">
-      
-
-    </div>
+      <div id="userCard" class="media col-12 mt-2 mb-2">
+      </div>
   </div>
 
   <div class="row mt-2">
-    <!-- DIV PADRE: media -->
-    <div id="userGoal" class="media col-5 mt-3 mb-2">
-      <!-- DIV HIJO1: left-->
-        <div class="media-body align-self-center">
-          <p class="idTitle">TU META DIARIA: </p>
-          <p id="goalDigit">2000 ml</p>
 
+        <div id="Objetivo" class="media col-5 mt-3 mb-2">
         </div>
-    </div>
 
-    <div id="userGoal" class="media col-5 mt-3 mb-2 ml-5">
-      <!-- DIV HIJO1: left-->
-        <div class="media-body align-self-center">
-          <p class="idTitle">HAS CONSUMIDO:</p>
-          <p id="goalDigit">1239 ml</p>
-
+        <div id="HasConsumido" class="media col-5 mt-3 mb-2 ml-5">
         </div>
+
     </div>
-  </div>
+  
 
   <br>
   <hr id="divisor"class="row col-12">
@@ -181,7 +169,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button href="LandingPage.html" type="button" class="btn btn-success" data-dismiss="modal" onclick="alert('Meta actualizada')">Registrar</button>
+        <button id="BotonPersonalizarMeta" type="button" class="btn btn-success" data-dismiss="modal">Registrar</button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
       </div>
     </div>
@@ -234,18 +222,21 @@
           </div>
       <div class="modal-body">
         <div class="container-fluid">
-          <div class="form-group">
+          <div id="defaultDrinksContainer" class="form-group">
             <label>Selecciona una bebida:</label><br>
             
-            <label><input type="radio" id="idBEBIDA" name="option" value="Mujer" required> Electrolit - 250ml</label><br>
-            <label><input type="radio" id="idBEBIDA" name="option" value="Hombre" required> Agua natural - 600 ml</label><br>
-            
+            <div id="listadoDefault" class="form-group">
+            <!--
+              <label><input type="radio" id="idBEBIDA" name="option" required> Electrolit - 250ml</label><br> 
+            -->
+            </div>
+
             <br>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button href="LandingPage.html" type="button" class="btn btn-success" data-dismiss="modal" onclick="alert('Bebida registrada')">Registrar</button>
+        <button id="BotonRegistrarDefault" href="LandingPage.html" type="button" class="btn btn-success" data-dismiss="modal">Registrar</button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
       </div>
     </div>
@@ -267,18 +258,18 @@
         <div class="container-fluid">
           <div class="form-group">
             <label>Nombre de la bebida:</label><br>
-            <input class="text" placeholder="E.j. Malteada">
+            <input id="nombreBebida" class="text" placeholder="E.j. Malteada">
             <br><br>
             <label>Cantidad (10 - 2000 ml):</label><br>
-            <input class="number" required placeholder="250ml" min="10" max="2000">
+            <input id="cantidadBebida" class="number" required placeholder="250ml" min="10" max="2000">
             <br><br>
             <label>URL de imagen (opcional):</label><br>
-            <input class="text" placeholder="https://freephotos.com/cappuccino.jpg" size="40">
+            <input id="urlBebida" class="text" placeholder="https://freephotos.com/cappuccino.jpg" size="40">
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button href="LandingPage.html" type="button" class="btn btn-success" data-dismiss="modal" onclick="alert('Bebida registrada')">Registrar</button>
+        <button id="BotonRegistrarBebidaPersonalizada" type="button" class="btn btn-success" data-dismiss="modal">Registrar</button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
       </div>
     </div>

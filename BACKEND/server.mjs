@@ -244,6 +244,7 @@ app.use("/api/users/edit", autenticarUsuario);
 app.use("/api/users/addliquid", autenticarUsuario);
 app.use("/api/users/deleteliquid", autenticarUsuario);
 app.use("/api/users/getinfo", autenticarUsuario);
+app.use("/api/users/getdefaultliquids", autenticarUsuario);
 
 
 //  ----- REGISTRAR USUARIO ---------
@@ -630,12 +631,23 @@ app.post('/api/users/addliquid', (req,res)=>{
     // y también se crea un consumo vinculado al usuario que la creó y esa nueva bebida
     else {
         // Vamos a crear una nueva bebida personalizada:
+        let missing = false;
+        if(req.body.Cantidad == undefined || req.body.Cantidad == "") missing = true;
+        if(req.body.NombreBebida == undefined || req.body.NombreBebida == "") missing = true;
+
         // Ver si tiene URL o asignarle una default
         let newURL = req.body.URL;
         if(newURL == undefined || newURL == "") {
             newURL = "../IMAGES/DRINKS/default.png";
         }
+
+        if(missing) {
+            res.status(400).send("Faltan datos.");
+            return;
+        }
+
         // Crear nueva bebida:
+        if(req.body.Cantidad > 2000) req.body.Cantidad = 2000;
         let newLiquid = new Liquid({
             Nombre: req.body.NombreBebida,
             Cantidad: req.body.Cantidad,
@@ -741,7 +753,7 @@ app.delete('/api/users/deleteliquid', (req,res)=>{
     201 si se trae bien la información
 */
 app.get('/api/users/getinfo', (req,res)=>{
-    // Recibimos: {IDUsuario}
+    // Recibimos: getinfo?id=###
     // Buscar usuario por el _id
     console.log("id que buscas: " + req.query.id);
     User.findOne({_id: req.query.id}, (err,doc)=>{
@@ -752,14 +764,132 @@ app.get('/api/users/getinfo', (req,res)=>{
         else {
             
             console.log(chalk.green("Se trajo la información del usuario: " + doc));
+            updateMeta(req.query.id);
             res.status(201).send(doc);
             return;
         }
     });
 });
 
+//----- TRAER BEBIDAS DEFAULT EXISTENTES ---------------
+app.get('/api/users/getdefaultliquids', (req, res) =>{
+    let nombre = req.query.nombre;
+    let id = 'default'
+    let filtro = {}
+    filtro.IDPertenenciaUsuario = {$regex : id};
+    if(nombre != undefined){
+        filtro.Nombre = {$regex : nombre};
+    }
+    Liquid.find(filtro, (err, docs)=>{
+        if(err) {
+            res.status(500).send("Error al buscar las bebidas.");
+            return;
+        }
+        else {
+            console.log("Bebidas encontrados: ");
+            console.log(docs);
+            res.status(201).send(docs);
+            return;
+        }
+    });
+});
 
 
+// ------ ACTUALIZAR META ----------
+app.put('/api/users/updatemeta', (req,res)=>{ 
+    // Si es personalizada, tendremos MetaObjetivo. Si no, calcularla
+    
+    if(req.body.MetaObjetivo != undefined || req.body.MetaObjetivo != null) {
+    // Recibimos: {IDUsuario, MetaObjetivo}
+    let nuevoObjetivo = req.body.MetaObjetivo;
+    if(nuevoObjetivo == undefined || nuevoObjetivo == null || nuevoObjetivo == "") {
+        res.status(400).send("No se recibió el nuevo objetivo.");
+        return;
+    }
+    // Si está todo completo, buscar usuario al que se le actualizará la meta:
+        User.findOne({_id: req.body.IDUsuario}, (err,doc)=>{
+            if(err) {
+                res.status(500).send("Error al actualizar la meta.");
+                return;
+            }        
+            else {
+                if(doc == null || doc.length <= 0) {
+                    res.status(401).send("No existe el usuario.");
+                    return;
+                }
+                else {
+                    // Actualizar meta:
+                    doc.MetaObjetivo = nuevoObjetivo;
+                    doc.save((err,doc)=>{
+                        if(err) {
+                            res.status(500).send("Error al actualizar la meta.");
+                            return;
+                        }
+                        else {
+                            console.log(chalk.green("Se actualizó la meta del usuario: " + doc));
+                            updateMeta(req.body.IDUsuario);
+                            res.status(201).send("Meta actualizada correctamente.");
+                            return;
+                        }
+                    });
+                }
+            }
+        });
+    }
+    else {
+        // Calcularemos la meta
+        // Solo recibimos el {IDUsuario}, debemos buscarlo y obtener sus datos
+        User.findOne({_id: req.body.IDUsuario}, (err,doc)=>{
+            if(err) {
+                res.status(500).send("Error en la base de datos.");
+                return;
+            }        
+            else {
+                if(doc == null || doc.length <= 0) {
+                    res.status(401).send("No existe el usuario.");
+                    return;
+                }
+                else {
+                    // Obtener peso, altura, region, sexo, edad y estatura para el cálculo
+                    let hoy = new Date().getFullYear();
+                    let peso = doc.Peso;
+                    let altura = doc.Estatura;
+                    let region = doc.Region;
+                    let sexo = doc.Sexo;
+                    let edad = doc.Nacimiento;
+                    edad = parseInt(edad.substring(0, 4),10);
+
+                    // Calcular meta
+                    let calculo = 0;
+                    let adicional = 0;
+                    if(altura > 170) adicional += 60;
+                    else if(region == "FRIA") adicional += 50;
+                    else if(region == "TEMPLADA") adicional += 120;
+                    else if(region == "CALUROSA") adicional += 250;
+                    else if(edad >= 50) adicional += 120;
+                    
+                    calculo = peso*30 + adicional;
+
+                    doc.MetaObjetivo = calculo;
+
+                    doc.save((err,doc)=>{
+                        if(err) {
+                            res.status(500).send("Error al actualizar la meta.");
+                            return;
+                        }
+                        else {
+                            console.log(chalk.green("Se actualizó la meta del usuario: " + doc));
+                            updateMeta(req.body.IDUsuario);
+                            res.status(201).send("Meta actualizada a "+calculo+" correctamente.");
+                            return;
+                        }
+                    });
+                }
+            }
+        });
+
+    }
+});
 
 // ************************************************************************************************************************************
 //                        ADMINISTRADOR

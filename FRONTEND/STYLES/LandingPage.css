@@ -147,7 +147,7 @@ body {
 
 
 
-#userGoal  {
+#HasConsumido, #Objetivo {
     margin-top: 5%;
     margin-left: 10%;
     width: 100%;
@@ -187,7 +187,7 @@ body {
     color: #aaadad;
 }
 
-#goalDigit {
+#goalDigit1, #goalDigit2 {
     font-size:40px;
     text-align: center;
 }

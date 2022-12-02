@@ -246,3 +246,31 @@ x-user-token: Ixt97gJ4dd-6384c1a8d95a822a1cedb311
 GET http://localhost:3000/api/users/getinfo?id=63883c53355b2e19a9625fae
 content-type: application/json
 x-user-token: bFVmdeq1sl-63883c53355b2e19a9625fae
+
+
+// Traer todas las bebidas default desde usuario
+### 
+GET http://localhost:3000/api/users/getdefaultliquids
+content-type: application/json
+x-user-token: p5Hxwm2aht-6387f9764da49dc42c28c102
+
+// Actualizar meta por usuario
+###
+PUT http://localhost:3000/api/users/updatemeta
+content-type: application/json
+x-user-token: ber6MNVz13-63885d971b9308f02883b299
+
+{
+    "IDUsuario": "63885d971b9308f02883b299",
+    "MetaObjetivo": 2010
+}
+
+// Calcular meta
+###
+PUT http://localhost:3000/api/users/updatemeta
+content-type: application/json
+x-user-token: ber6MNVz13-63885d971b9308f02883b299
+
+{
+    "IDUsuario": "63885d971b9308f02883b299"
+}
