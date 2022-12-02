@@ -638,7 +638,7 @@ app.post('/api/users/addliquid', (req,res)=>{
         // Ver si tiene URL o asignarle una default
         let newURL = req.body.URL;
         if(newURL == undefined || newURL == "") {
-            newURL = "../IMAGES/DRINKS/default.png";
+            newURL = "./IMAGES/DRINKS/default.png";
         }
 
         if(missing) {
@@ -890,6 +890,46 @@ app.put('/api/users/updatemeta', (req,res)=>{
 
     }
 });
+
+//*************************************************************************************************************************************
+//                         ESTADISTICAS
+//*************************************************************************************************************************************
+app.get('/api/users/getconsumos', (req, res) => {
+    let idUsuario = req.query.id;
+    Consumo.find({IDUsuario: idUsuario}, (err, consumos) => {
+        if(err) {
+            res.status(500).send("Error al buscar los consumos del usuario: " + idUsuario);
+            return;
+        }
+        else {
+            console.log("Consumos encontrados: ");
+            console.log(consumos);
+            res.status(200).send(consumos);
+            return;
+        }
+    });
+})
+
+app.get('/api/users/getdrink', (req, res) => {
+    
+    let id = req.query.id;
+    console.log(id);
+    let filtro = {}
+    filtro._id = id;
+    console.log(filtro);
+    Liquid.find(filtro, (err, docs)=>{
+        if(err) {
+            res.status(500).send("Error al buscar las bebidas.");
+            return;
+        }
+        else {
+            console.log("Bebidas encontrados: ");
+            console.log(docs);
+            res.status(200).send(docs);
+            return;
+        }
+    });
+})
 
 // ************************************************************************************************************************************
 //                        ADMINISTRADOR

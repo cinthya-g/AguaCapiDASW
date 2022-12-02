@@ -49,76 +49,12 @@
           <div class="sectionTitle width: 50%"><h1>Resumen</div> 
                 <canvas id="myDailyBarChart"></canvas>
         </div>
-    </div>
-</div>   
-</div>      
-
-
+        <button class="chartBox sectionTitle buttonHistorial" id = "historialButton"> <h1>Ver historial</h1></button>
+      </div>
     
-    <script>
-        const ctx = document.getElementById('myDailyBarChart');
-        
-        new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: ['Día 1', 'Día 2', 'Día 3', 'Día 4', 'Día 5', 'Día 6', 'Día 7', 'Día 8', 'Día 9', 'Día 10'],
-            datasets: [{
-              label: 'Mililitros consumidos',
-              data: [2000, 2500, 1000, 1500, 2000, 2000, 3000, 2100, 1750, 2000],
-              borderWidth: 1
-            }]
-          },
-          options: {
-            scales: {
-              y: {
-                beginAtZero: true
-              }
-            },
-            maintainAspectRatio: true,
-            plugins: {
-            title: {
-                display: true,
-                text: 'Consumo de Agua'
-            },
-        }
-          }
-        });
-        const ctx2 = document.getElementById('favoriteDrink');
-        new Chart(ctx2, {
-          type: 'doughnut',
-          data: {
-        labels: [
-            'Agua',
-            'Mamarindo',
-            'Coca Cola Zero'
-        ],
-        datasets: [{
-            label: 'Litros consumidos',
-            data: [20, 2, 10],
-            backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
-            'rgb(255, 205, 86)'
-            ],
-            hoverOffset: 4
-        }]
-        },
-          options: {
-            scales: {
-              y: {
-                beginAtZero: true
-              }
-            },
-            plugins: {
-            title: {
-                display: true,
-                text: 'Bebidas favoritas'
-            }
-        }
-          }
-        });
-      </script>
-      
+  </div>   
+
+</div>      
 
 <!-- MODAL DE CERRAR SESION -->
 <div class="modal fade" id="modalCerrarSesion" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
@@ -136,12 +72,32 @@
         </div>
       </div>
       <div class="modal-footer">
-        <a href="Home.html"><button class="btn btn-danger">Cerrar sesión</button></a>
+        <a href="Home.html"><button class="btn btn-danger" id = "BotonCerrarSesion">Cerrar sesión</button></a>
         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
       </div>
     </div>
   </div>
 </div>
+
+<!-- MODAL DE TODO EL CONSUMO -->
+<div class="modal fade" id="modalHistorialConsumo" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">Todo tu consumo</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+          </div>
+          <div class="modal-body">
+              <div class="form-group" id="ListaHistorialConsumo">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>  
 
   </body>
 
@@ -151,6 +107,8 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="./SignOut.js"></script>
+    <script src="./Charts.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
 </html>
