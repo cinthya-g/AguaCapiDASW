@@ -111,7 +111,6 @@ function userToHTML(usuario, div){
         modalInfoSexo.innerHTML = `<b>Sexo:</b> ${usuario.Sexo}`;
         let modalInfoCorreo = document.getElementById("modalInfoCorreo");
         modalInfoCorreo.innerHTML = `<b>Correo:</b> ${usuario.Correo}`;
-
         $('#modalInformacionUsuario').modal('show');
     });
 
@@ -124,18 +123,20 @@ function userToHTML(usuario, div){
     iDelete.style = "width:15px;";
     buttonDelete.appendChild(iDelete);
     buttonDelete.addEventListener('click', function (){
-        let xhr = new XMLHttpRequest();
-        xhr.open('DELETE', url + 'deleteuser?id='+usuario._id);
-        xhr.setRequestHeader('x-user-token', localStorage.getItem("token"));
-        xhr.send()
-        xhr.onload = function (){
-            if (xhr.status != 200) { // analizar el estatus de la respuesta HTTP
-                // Ocurrió un error
-                console.log(xhr.statusText);
-                // ejecutar algo si error
-            } else {
-                alert('Usuario Eliminado');
-                window.location.href ="./Admin.html"
+        if(confirm(`¿Estás segur@ de que quieres eliminar a ${usuario.Nombre} ${usuario.Apellido}?`)){
+            let xhr = new XMLHttpRequest();
+            xhr.open('DELETE', url + 'deleteuser?id='+usuario._id);
+            xhr.setRequestHeader('x-user-token', localStorage.getItem("token"));
+            xhr.send()
+            xhr.onload = function (){
+                if (xhr.status != 200) { // analizar el estatus de la respuesta HTTP
+                    // Ocurrió un error
+                    console.log(xhr.statusText);
+                    // ejecutar algo si error
+                } else {
+                    alert('Usuario Eliminado');
+                    window.location.href ="./Admin.html"
+                }
             }
         }
     })
@@ -233,9 +234,11 @@ addDrinkButton.addEventListener('click', function (){
     let nombre = document.getElementById("NombreNuevaBebida").value;
     let cantidad = document.getElementById("CantidadNuevaBebida").value;
     let urlBebida = document.getElementById("URLNuevaBebida").value;
-    if(isBlank(urlBebida)){
+    
+    if(urlBebida == "" || urlBebida == undefined){
         urlBebida = './IMAGES/DRINKS/default.png';
     }
+
     let xhr = new XMLHttpRequest();
     xhr.open('POST', url + 'addliquid');
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -348,22 +351,24 @@ function drinkToHTML(bebida, mainDiv){
     buttonDelete.classList.add("btn");
     buttonDelete.classList.add("btn-primary");
     buttonDelete.addEventListener('click', function(){
-        let otherUrl = url + "deleteliquid?id="+bebida._id;
-        let urlWithQuery = new URL(url + "deleteliquid");
-        urlWithQuery.searchParams.append('id', bebida._id);
-        console.log(otherUrl);
-        let xhr = new XMLHttpRequest();
-        xhr.open('DELETE', otherUrl);
-        xhr.setRequestHeader('x-user-token', localStorage.getItem("token"));
-        xhr.send()
-        xhr.onload = function (){
-            if (xhr.status != 200) { // analizar el estatus de la respuesta HTTP
-                // Ocurrió un error
-                console.log(xhr.statusText);
-                // ejecutar algo si error
-            } else {
-                alert('Bebida Eliminada');
-                window.location.href ="./Admin.html"
+        if(confirm('Seguro que deseas eliminar esta bebida?')){
+            let otherUrl = url + "deleteliquid?id="+bebida._id;
+            let urlWithQuery = new URL(url + "deleteliquid");
+            urlWithQuery.searchParams.append('id', bebida._id);
+            console.log(otherUrl);
+            let xhr = new XMLHttpRequest();
+            xhr.open('DELETE', otherUrl);
+            xhr.setRequestHeader('x-user-token', localStorage.getItem("token"));
+            xhr.send()
+            xhr.onload = function (){
+                if (xhr.status != 200) { // analizar el estatus de la respuesta HTTP
+                    // Ocurrió un error
+                    console.log(xhr.statusText);
+                    // ejecutar algo si error
+                } else {
+                    alert('Bebida Eliminada');
+                    window.location.href ="./Admin.html"
+                }
             }
         }
     })
@@ -381,13 +386,13 @@ function drinkToHTML(bebida, mainDiv){
     divCol.appendChild(divButton);
 
     mainDiv.appendChild(divCol);
-
-    //"olo".test()
 }
 
+/*
 function isBlank(str) {
     return (!str || '/^\s*$/'.test(str));
 }
+*/
 
 function searchItem(items, name, toSearch){
     let searchedItems = []
