@@ -136,14 +136,14 @@
               <a name="" id="" class="btn btn-info" href="#" data-toggle="modal" data-target="#modalMetaPropia" role="button">Establecer meta propia de hidratación</a>
             </div>
             <div class="col-6" style="align-self: center;">
-              <a name="" id="" class="btn btn-info" href="#" role="button" onclick="alert('Nueva meta calculada, revisar perfil!')">Calcular de acuerdo a mis datos</a>
+              <a name="" id="BotonCalcularMeta" href="#" class="btn btn-info" role="button" data-toggle="modal" data-target="#modalCalcularMeta">Calcular de acuerdo a mis datos</a>
 
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" >Cancelar</button>
       </div>
     </div>
   </div>
@@ -163,7 +163,7 @@
         <div class="container-fluid">
           <div class="form-group">
             <label>Ingresa tu meta (ml):</label><br>
-            <input class="number" placeholder="E.j. 2100">
+            <input id="MetaPropiaFijada" class="number" placeholder="E.j. 2100">
             <br>
           </div>
         </div>
@@ -176,6 +176,32 @@
   </div>
 </div>
 
+<!-- MODAL: CALCULANDO META -->
+<div class="modal fade" data-backdrop="static" id="modalCalcularMeta" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="form-group">
+                          <!-- espacio para animación de carga-->
+                <div id="LoadingAnimation" class="row justify-content-center">
+                  <br>
+                    <lottie-player 
+                      src="./ANIMATIONS/calculating.json" background="transparent"  speed="1.2"  style="display: none; width: 200px; height: 200px;"
+                      loop autoplay>
+                    </lottie-player>
+                    <estatus1 style="display: none">Evaluando datos del usuario...</estatus1>
+                    <estatus2 style="display: none">Calculando...</estatus2>
+                </div>
+
+            <br>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 
 <!-- MODAL AÑADIR CONSUMO -->
@@ -287,21 +313,22 @@
                 <span aria-hidden="true">&times;</span>
               </button>
               
-          </div>
+        </div>
       <div class="modal-body">
         <div class="container-fluid">
           <div class="form-group">
             <label>Nombre de la bebida a eliminar:</label><br>
-            <input class="text" placeholder="E.j. Malteada">
+            <input required id="BebidaAEliminar" class="text" placeholder="E.j. Malteada">
             <br>
             <small class="annotation">Se eliminará la bebida más reciente encontrada que coincida</small>
           </div>
         </div>
+            <div class="modal-footer">
+              <button id="BotonEliminarBebida" type="button" class="btn btn-success" data-dismiss="modal">Eliminar</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            </div>
       </div>
-      <div class="modal-footer">
-        <button href="LandingPage.html" type="button" class="btn btn-success" data-dismiss="modal" onclick="alert('Consumo eliminado')">Eliminar</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-      </div>
+
     </div>
   </div>
 </div>

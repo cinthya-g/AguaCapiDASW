@@ -39,14 +39,14 @@
       </nav>
     
 <div class="divContent">
-    <h1 class="globalTitle">Estadísticas últimos 10 días</h1>
+    <h1 class="globalTitle">Estadísticas de consumo</h1>
     <div style="display:block; width:100%">     
         <div class="chartBox fav" style="width: 40%; display: inline-block;">
-          <div class="sectionTitle width: 50%"><h1>Tus bebidas más consumidas</div>    
+          <div class="sectionTitle width: 50%"><h1>Tus bebidas más consumidas hoy</div>    
                 <canvas id="favoriteDrink"></canvas>
         </div>
         <div class="chartBox" style="width: 40%; float: left; display: block;"> 
-          <div class="sectionTitle width: 50%"><h1>Resumen</div> 
+          <div class="sectionTitle width: 50%"><h1>Resumen de los últimos 10 días</div> 
                 <canvas id="myDailyBarChart"></canvas>
         </div>
         <button class="chartBox sectionTitle buttonHistorial" id = "historialButton"> <h1>Ver historial</h1></button>
@@ -81,7 +81,7 @@
 
 <!-- MODAL DE TODO EL CONSUMO -->
 <div class="modal fade" id="modalHistorialConsumo" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content">
           <div class="modal-header">
               <h5 class="modal-title">Todo tu consumo</h5>
@@ -92,6 +92,7 @@
           <div class="modal-body">
               <div class="form-group" id="ListaHistorialConsumo">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                  
               </div>
               </form>
           </div>

@@ -233,11 +233,11 @@ x-user-token: Ixt97gJ4dd-6384c1a8d95a822a1cedb311
 ### ELIMINAR CONSUMO PERSONALIZADO A USUARIO
 DELETE http://localhost:3000/api/users/deleteliquid
 content-type: application/json
-x-user-token: Ixt97gJ4dd-6384c1a8d95a822a1cedb311
+x-user-token: FA810NBF2N-63892b3ed42e76ff1065c7eb
 
 {
-    "IDUsuario": "6384c1a8d95a822a1cedb311",
-    "NombreBebida": "Té hierbabuena"
+    "IDUsuario": "63892b3ed42e76ff1065c7eb",
+    "NombreBebida": "Chocomilk"
 }
 
 

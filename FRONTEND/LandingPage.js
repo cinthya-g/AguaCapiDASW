@@ -1,4 +1,5 @@
 
+
 let url = 'http://localhost:3000/api/users/';
 
 // Objeto del usuario loggeado actualmente
@@ -8,7 +9,30 @@ let defaultAdded = {};
 
 getUserData(1);
 
+function showCalculatingAnimation() {
+    console.log("Calculando...");
+    document.querySelector('lottie-player').style.display = 'block';
+    document.querySelector('estatus1').style.display = 'block';
+    setTimeout(function(){
+        document.querySelector('estatus1').style.display = 'none';
+        document.querySelector('estatus2').style.display = 'block';
+    }, 3000);
+    setTimeout(function(){
+        document.querySelector('estatus2').style.display = 'none';
+        document.querySelector('lottie-player').style.display = 'none';
+        afterCalculating();
+    }, 5000);
+}
 
+function afterCalculating() {
+    console.log("Ya terminó de calcular");
+    $('#modalCalcularMeta').modal('hide');
+    $('#modalFijarMeta').modal('hide');
+    getUserData(1);
+    getUserData(1);
+    getUserData(1);
+    getUserData(1); 
+}
 
 function getIDFromToken() {
     let id = localStorage.getItem("token").substring(11, 35);
@@ -16,6 +40,8 @@ function getIDFromToken() {
     console.log(typeof id);
     return id;
 }
+
+
 
 
 // Fabrica el div de la meta objetivo
@@ -143,15 +169,19 @@ let addCustomDrinkButton = document.getElementById("BotonRegistrarBebidaPersonal
     xhr.send(JSON.stringify(customDrink));
 
     xhr.onload = function() {
-        if(xhr.status != 201) {
+        if(xhr.status == 400) {
+            alert(xhr.status + ": ¡ingresa los datos solicitados!");
+        }
+        if(xhr.status == 500) {
             alert(xhr.status + ": error al guardar el consumo personalizado");
             $('#modalAñadirConsumo').modal('hide');
             getUserData(1);
             getUserData(1);
             getUserData(1);
-        } else {
+        } if(xhr.status == 201) {
             console.log("Consumo personalizado guardado");
             $('#modalAñadirConsumo').modal('hide');
+            getUserData(1);
             getUserData(1);
             getUserData(1);
             getUserData(1);
@@ -159,9 +189,120 @@ let addCustomDrinkButton = document.getElementById("BotonRegistrarBebidaPersonal
     }
  });
 
+ // Eliminar consumo de bebida por su nombre
+ let deleteDrinkButton = document.getElementById("BotonEliminarBebida");  
+deleteDrinkButton.addEventListener("click", function() {  
+    console.log("diste click en eliminar bebida");  
+    let deleteDrink = {  
+        IDUsuario: getIDFromToken(),  
+        NombreBebida: document.getElementById("BebidaAEliminar").value  
+    };  
+    console.log(deleteDrink);  
+    // Enviar a POST /api/users/addliquid  
+    let xhr =  new XMLHttpRequest();  
+    xhr.open('DELETE', url+'deleteliquid');  
+    xhr.setRequestHeader("content-type", 'application/json');  
+    xhr.setRequestHeader("x-user-token", localStorage.getItem("token"));  
+    xhr.send(JSON.stringify(deleteDrink));  
+    xhr.onload = function() {  
+        if(xhr.status == 400) {
+            alert(xhr.status + ": ¡ingresa el nombre de la bebida!");
+            getUserData(1);
+        }
+        if(xhr.status == 500) {  
+            alert(xhr.status + ": algo salió mal con Mongo...");            
+        } 
+        if(xhr.status == 404) {
+            alert(xhr.status + ": no existe bebida con ese nombre, inténtalo nuevamente.");
+            getUserData(1);
+        }
+        if(xhr.status == 200) {
+            console.log("Se eliminó el consumo, pero no la bebida porque es default");
+            $('#modalEliminarConsumo input').val(''); 
+            $('#modalAñadirConsumo').modal('hide');
+            
+            getUserData(1);
+            getUserData(1); 
+            getUserData(1); 
+        }
+        
+        if(xhr.status == 201) {
+            console.log("Consumo y bebida personalizada eliminados");
+            $('#modalAñadirConsumo').modal('hide');  
+            getUserData(1);  
+            getUserData(1);  
+            getUserData(1);  
+        }  
+    }  
+ });
+
  // Añadir funcion para boton de FIJAR META PROPIA
+let addMetaPropiaButton = document.getElementById("BotonPersonalizarMeta");
+addMetaPropiaButton.addEventListener("click", function() { 
+    console.log("diste click en añadir meta propia");
+    let metaPropia = {
+        IDUsuario: getIDFromToken(),
+        MetaObjetivo: document.getElementById("MetaPropiaFijada").value,
+        Personalizada: true
+    };
+    console.log(metaPropia);
+    // Enviar a PUT /api/users/updatemeta
+    let xhr =  new XMLHttpRequest();
+    xhr.open('PUT', url+'updatemeta');
+    xhr.setRequestHeader("content-type", 'application/json');
+    xhr.setRequestHeader("x-user-token", localStorage.getItem("token"));
+    xhr.send(JSON.stringify(metaPropia));
+
+    xhr.onload = function() {
+        if(xhr.status == 400) {
+            alert(xhr.status + ": ¡no puedes dejar una meta vacía o menor a 1000 ml!");
+        }
+        if(xhr.status == 500) {
+            alert(xhr.status + ": error al guardar la meta propia...");
+        } 
+        if(xhr.status == 401) {
+            alert(xhr.status + ": no se encontró usuario con ese ID");
+        }
+        if(xhr.status == 201) {
+            console.log("Meta propia guardada");
+            $('#modalFijarMeta').modal('hide');
+            getUserData(1);
+            getUserData(1);
+            getUserData(1);
+            getUserData(1);
+        }
+    }
+ });
 
  // Añadir funcion para boton de CALCULAR META
+let calculateMetaButton = document.getElementById("BotonCalcularMeta");
+calculateMetaButton.addEventListener("click", function() {
+    console.log("diste click en calcular meta");
+    let metaCalculada = {
+        IDUsuario: getIDFromToken(),
+        Personalizada: false
+    };
+    console.log(metaCalculada);
+    // Enviar a PUT /api/users/updatemeta
+    let xhr =  new XMLHttpRequest();
+    xhr.open('PUT', url+'updatemeta');
+    xhr.setRequestHeader("content-type", 'application/json');
+    xhr.setRequestHeader("x-user-token", localStorage.getItem("token"));
+    xhr.send(JSON.stringify(metaCalculada));
+
+    xhr.onload = function() {
+        if(xhr.status == 500) {
+            alert(xhr.status + ": algo sucedió con Mongo...");
+        }
+        if(xhr.status == 401) {
+            alert(xhr.status + ": no se encontró usuario con ese ID");
+        }
+        if(xhr.status == 201) {
+            console.log("Meta calculada guardada");
+            showCalculatingAnimation();
+        }
+    }
+    });
 
 
 

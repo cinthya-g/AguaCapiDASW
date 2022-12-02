@@ -245,6 +245,7 @@ app.use("/api/users/addliquid", autenticarUsuario);
 app.use("/api/users/deleteliquid", autenticarUsuario);
 app.use("/api/users/getinfo", autenticarUsuario);
 app.use("/api/users/getdefaultliquids", autenticarUsuario);
+app.use("/api/users/updatemeta", autenticarUsuario);
 
 
 //  ----- REGISTRAR USUARIO ---------
@@ -708,6 +709,12 @@ app.post('/api/users/addliquid', (req,res)=>{
 */
 app.delete('/api/users/deleteliquid', (req,res)=>{
     // Recibimos: {IDUsuario, NombreBebida}
+    // Revisar que no venga vacío el nombre
+    if(req.body.NombreBebida == undefined || req.body.NombreBebida == "") {
+        res.status(400).send("Ingresa el nombre.");
+        return;
+    }
+    
     // Buscar el consumo que tenga el nombre de la bebida, fecha de hoy y id del usuario
     let hoy = new Date().toJSON().slice(0,10);
     Consumo.findOneAndDelete({IDUsuario: req.body.IDUsuario, NombreBebida: req.body.NombreBebida, Fecha: hoy}, (err,doc)=>{
@@ -723,11 +730,23 @@ app.delete('/api/users/deleteliquid', (req,res)=>{
                 if(err) {
                     res.status(500).send("No se puede eliminar la bebida");
                     return;
-                }s
+                }
                 if( doc == null || doc.length <= 0) {
-                    updateMeta(req.body.IDUsuario);
-                    res.status(401).send("No hay bebida con ese nombre.")
-                    return;
+                    // Determinar si el nombre de la bebida estaba bien escrito
+                    Liquid.findOne({Nombre : req.body.NombreBebida}, (err,doc)=>{
+                        if(err) {
+                            res.status(500).send("Error al buscar la bebida.");
+                            return;
+                        }
+                        if(doc == null || doc.length <= 0) {
+                            res.status(404).send("No existe la bebida.");
+                            return;
+                        } else {
+                            updateMeta(req.body.IDUsuario);
+                            res.status(200).send("No hay bebida personalizada con ese nombre.")
+                            return;
+                        }
+                    });
                 }
                 // Si se eliminó correctamente:
                 else {
@@ -795,15 +814,23 @@ app.get('/api/users/getdefaultliquids', (req, res) =>{
 });
 
 
+//------- TRAER BEBIDAS ASOCIADAS A ESE USUARIO PARA BEBIDAS RECIENTES ----------
+
+
 // ------ ACTUALIZAR META ----------
 app.put('/api/users/updatemeta', (req,res)=>{ 
+    // Recibimos: {IDUsuario, MetaObjetivo, Personalizada: true/false}
     // Si es personalizada, tendremos MetaObjetivo. Si no, calcularla
     
-    if(req.body.MetaObjetivo != undefined || req.body.MetaObjetivo != null) {
+    if(req.body.Personalizada) {
     // Recibimos: {IDUsuario, MetaObjetivo}
     let nuevoObjetivo = req.body.MetaObjetivo;
     if(nuevoObjetivo == undefined || nuevoObjetivo == null || nuevoObjetivo == "") {
         res.status(400).send("No se recibió el nuevo objetivo.");
+        return;
+    }
+    if(nuevoObjetivo < 1000) {
+        res.status(400).send("El objetivo debe ser mayor a 1000 ml.");
         return;
     }
     // Si está todo completo, buscar usuario al que se le actualizará la meta:
@@ -857,20 +884,25 @@ app.put('/api/users/updatemeta', (req,res)=>{
                     let region = doc.Region;
                     let sexo = doc.Sexo;
                     let edad = doc.Nacimiento;
+                    let actividad = doc.Actividad;
                     edad = parseInt(edad.substring(0, 4),10);
 
                     // Calcular meta
                     let calculo = 0;
                     let adicional = 0;
-                    if(altura > 170) adicional += 60;
-                    else if(region == "FRIA") adicional += 50;
-                    else if(region == "TEMPLADA") adicional += 120;
-                    else if(region == "CALUROSA") adicional += 250;
+                    if(altura > 170) adicional += 50;
+                    else if(region == "FRIA") adicional += 60;
+                    else if(region == "TEMPLADA") adicional += 110;
+                    else if(region == "CALUROSA") adicional += 300;
                     else if(edad >= 50) adicional += 120;
+                    else if(actividad == "BAJA") adicional += 40;
+                    else if(actividad == "MEDIA") adicional += 120;
+                    else if(actividad == "ALTA") adicional += 360;
                     
-                    calculo = peso*30 + adicional;
+                    calculo = peso*35 + adicional;
 
                     doc.MetaObjetivo = calculo;
+                    console.log(chalk.bgRed("Objetivo calculado: " + calculo));
 
                     doc.save((err,doc)=>{
                         if(err) {
