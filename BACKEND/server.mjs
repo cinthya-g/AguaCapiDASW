@@ -855,8 +855,6 @@ app.get('/api/users/gettodayliquids', (req, res) =>{
 });
 
 
-
-
 // ------ ACTUALIZAR META ----------
 app.put('/api/users/updatemeta', (req,res)=>{ 
     // Recibimos: {IDUsuario, MetaObjetivo, Personalizada: true/false}

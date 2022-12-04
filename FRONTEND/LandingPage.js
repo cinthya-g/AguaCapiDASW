@@ -426,11 +426,3 @@ function getUserData(priority) {
             }
         }
 }
-
-
-
-
-
-
-
-
