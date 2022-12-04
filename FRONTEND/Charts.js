@@ -89,7 +89,7 @@ function tableWaterConsumption(consumos){
                     plugins: {
                     title: {
                         display: true,
-                        text: 'Consumo de Agua'
+                        text: 'Mililitros del día'
                     },
                 }
                   }
@@ -219,7 +219,8 @@ function drinkToHTML(bebida, mainDiv, fechaConsumo){
     let divBody = document.createElement('div');
     divBody.classList.add("media-body");
     divBody.innerHTML = `<b>${bebida.Nombre}</b> <br>
-                        <p>Fecha de Consumo: ${fechaConsumo}`;
+                        <p><br>Fecha de consumo: ${fechaConsumo} <br>
+                        Cantidad: ${bebida.Cantidad} ml</p>`;
 
     let divButton = document.createElement('div');
     divButton.classList.add("media-right");

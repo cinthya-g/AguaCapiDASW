@@ -338,7 +338,8 @@ function drinkToHTML(bebida, mainDiv){
 
     let divBody = document.createElement('div');
     divBody.classList.add("media-body");
-    divBody.innerHTML = `<b>${bebida.Nombre}</b> <br>`;
+    divBody.innerHTML = `<br><b>${bebida.Nombre}</b> <br>
+                        ${bebida.Cantidad} ml<br>`;
 
     let divButton = document.createElement('div');
     divButton.classList.add("media-right");
