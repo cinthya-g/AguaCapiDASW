@@ -159,6 +159,9 @@ let consumoSchema = mongoose.Schema({
         type: Number,
         min: 10,
         max: 2000
+    },
+    URL: {
+        type: String
     }
 })
 
@@ -246,6 +249,8 @@ app.use("/api/users/deleteliquid", autenticarUsuario);
 app.use("/api/users/getinfo", autenticarUsuario);
 app.use("/api/users/getdefaultliquids", autenticarUsuario);
 app.use("/api/users/updatemeta", autenticarUsuario);
+app.use("/api/users/ranking", autenticarUsuario);
+app.use("/api/users/gettodayliquids", autenticarUsuario);
 
 
 //  ----- REGISTRAR USUARIO ---------
@@ -607,7 +612,8 @@ app.post('/api/users/addliquid', (req,res)=>{
                     IDUsuario: req.body.IDUsuario,
                     IDBebida: req.body.IDBebida,
                     NombreBebida: docs[0].Nombre,
-                    Cantidad: docs[0].Cantidad
+                    Cantidad: docs[0].Cantidad,
+                    URL: docs[0].URL
                 });
 
                 // Se añade el consumo nuevo creado:
@@ -671,7 +677,8 @@ app.post('/api/users/addliquid', (req,res)=>{
                     IDUsuario: req.body.IDUsuario,
                     IDBebida: doc._id,
                     NombreBebida: req.body.NombreBebida,
-                    Cantidad: req.body.Cantidad
+                    Cantidad: req.body.Cantidad,
+                    URL: newURL
                 });
 
                 // Se añade el consumo nuevo creado:
@@ -815,6 +822,39 @@ app.get('/api/users/getdefaultliquids', (req, res) =>{
 
 
 //------- TRAER BEBIDAS ASOCIADAS A ESE USUARIO PARA BEBIDAS RECIENTES ----------
+/* Busca en la base de datos los consumos con fecha actual y el id del usuario loggeado, 
+   y regresa los consumos que coincidan.
+   Guarda sus IDs en un arreglo y busca las bebidas con esos IDs en la base de datos de bebidas
+   para regresar su nombre, cantidad y url.
+   GET /api/users/gettodayliquids?idUsuario=###&fecha=####
+*/
+app.get('/api/users/gettodayliquids', (req, res) =>{
+    let id = req.query.idUsuario;
+    let fecha = req.query.fecha;
+    Consumo.find({IDUsuario: id, Fecha: fecha}, (err, docs)=>{
+        if(err) {
+            res.status(500).send("Error al buscar las bebidas.");
+            return;
+        }
+        else {
+            if(docs.length <= 0) {
+                // Significa que hoy no ha consumido nada, por lo tanto se mostrará
+                // un div que diga "No has consumido nada hoy"
+                res.status(200).send("No hay consumos de hoy.");
+                return;
+            } else {
+                // Regresa el arreglo de consumos encontrados
+                console.log("Consumos de hoy encontrados: ");
+                console.log(docs);
+                // send docs
+                res.status(201).send(docs);
+
+            }
+        }
+    });
+});
+
+
 
 
 // ------ ACTUALIZAR META ----------
@@ -962,6 +1002,73 @@ app.get('/api/users/getdrink', (req, res) => {
         }
     });
 })
+
+
+//*************************************************************************************************************************************
+//                          RANKING DE USUARIOS
+//*************************************************************************************************************************************
+// ----- TRAER A LOS 10 USUARIOS QUE HAN TOMADO MÁS AGUA -----------------------
+/* GET /api/users/ranking
+   Buscamos, entre los consumos de hoy, aquellos 10 usuarios que han tenido más cantidad consumida.
+   Primero se filtrarán aquellos usuarios que en StatsData sea "true" y después se sumarán sus consumos
+   de hoy para sacar los 10 con más consumo.
+*/
+app.get('/api/users/ranking', (req, res) => {
+    console.log("entró a get rankings");
+    // Buscar usuarios que tengan StatsData en true
+    User.find({StatsData: true}, (err, docs)=>{
+        if(err) {
+            res.status(500).send("Error al buscar usuarios.");
+            return;
+        }
+        else {
+            // Buscar consumos de hoy
+            let today = new Date().toJSON().slice(0,10);
+            Consumo.find({Fecha: today}, (err, consumos)=>{
+                if(err) {
+                    res.status(500).send("Error al buscar consumos.");
+                    return;
+                }
+                else {
+                    // Si no hay consumos, no hay ranking
+                    if(consumos.length <= 0) {
+                        res.status(200).send("No hay consumos.");
+                        return;
+                    }
+                    else {
+                    // Buscar consumos de cada usuario
+                    let ranking = [];
+                    for(let i = 0; i < docs.length; i++) {
+                        let usuario = docs[i];
+                        let total = 0;
+                        for(let j = 0; j < consumos.length; j++) {
+                            let consumo = consumos[j];
+                            if(consumo.IDUsuario == usuario._id) {
+                                total += consumo.Cantidad;
+                            }
+                        }
+                        ranking.push({IDUsuario: usuario._id, Nombre: usuario.Nombre, 
+                                    Apellido: usuario.Apellido, URL: usuario.UrlPicture, 
+                                    Total: total});
+                    }
+                    // Ordenar ranking
+                    ranking.sort((a,b)=>{
+                        return b.Total - a.Total;
+                    });
+                    // Devolver los 10 primeros
+                    ranking = ranking.slice(0,10);
+                    res.status(201).send(ranking);
+                    return;
+                }
+                }
+            }
+            );
+        }
+    });
+});
+
+
+
 
 // ************************************************************************************************************************************
 //                        ADMINISTRADOR

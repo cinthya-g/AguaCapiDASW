@@ -33,6 +33,7 @@ function createTables(){
         // ejecutar algo si error
         } else {
             consumosGlobal= JSON.parse(xhr.response);
+            console.log(consumosGlobal);
             tableWaterConsumption(consumosGlobal);
             tableTopDrinks(consumosGlobal);
         }
@@ -42,10 +43,16 @@ function createTables(){
 function tableWaterConsumption(consumos){
     let hoy = new Date();
     let last10Days = ['','','','','','','','','',''];
+    let dateLabels = []
     for(let i = 0; i < 10; i++){
         let buffDate = new Date();
         buffDate.setDate(hoy.getDate()-i);
         last10Days[i] = buffDate.toJSON().slice(0,10);
+        if (i == 0){
+            dateLabels[0] = 'Hoy'
+        }else{
+            dateLabels[i] = last10Days[i];
+        }
     }
     let hoyMenos10 = new Date();
     hoyMenos10.setDate(hoy.getDate() - 9);
@@ -53,11 +60,6 @@ function tableWaterConsumption(consumos){
     let waterConsumos = [];
     let usefulConsumos = [];
     consumos.forEach(bebida => {
-        if(bebida.NombreBebida === "Agua Natural"){
-            waterConsumos.push(bebida);
-        };
-    });
-    waterConsumos.forEach(bebida => {
         if(bebida.Fecha >= hoyMenos10String){
             usefulConsumos.push(bebida);
         }
@@ -70,7 +72,7 @@ function tableWaterConsumption(consumos){
             new Chart(ctx, {
                 type: 'bar',
                 data: {
-                labels: ['Hoy', 'Día 2', 'Día 3', 'Día 4', 'Día 5', 'Día 6', 'Día 7', 'Día 8', 'Día 9', 'Día 10'],
+                labels: dateLabels,
                 datasets: [{
                       label: 'Mililitros consumidos',
                       data: mlPerDay,
@@ -102,14 +104,12 @@ function tableTopDrinks(consumos){
     let accumulatedDrinks = [];
     let todayDrinks = [];
     consumos.forEach(consumo => {
-        if(consumo.Fecha === hoy){
-            todayDrinks.push(consumo);
             if(uniqueDrinks[consumo.NombreBebida]){
                 uniqueDrinks[consumo.NombreBebida] += consumo.Cantidad;
             }else{
                 uniqueDrinks[consumo.NombreBebida] = consumo.Cantidad;
             }
-        }
+        
     });
     let cache = Object.keys(uniqueDrinks).map(function(key) {
         return [key, uniqueDrinks[key]];
@@ -159,6 +159,7 @@ function tableTopDrinks(consumos){
 function sumOfMiliInDay(consumos, fecha){
     let mililitersInDay = 0;
     consumos.forEach(consumo => {
+        console.log('Consumo: ' + consumo.Fecha + 'Fecha: ' + fecha);
         if(consumo.Fecha === fecha){
             mililitersInDay += consumo.Cantidad;
         }
@@ -169,6 +170,8 @@ function sumOfMiliInDay(consumos, fecha){
 
 let historialButton = document.getElementById("historialButton");
 historialButton.addEventListener('click', function (){
+    let mainDiv = document.getElementById("ListaHistorialConsumo");
+    mainDiv.innerHTML = '';
     consumosGlobal.forEach(e => {
         drinksToHTML(e);
     })
@@ -187,12 +190,13 @@ function drinksToHTML(consumo){
         } else {
             let mainDiv = document.getElementById("ListaHistorialConsumo");
             let bebida = JSON.parse(xhr.response);
-            drinkToHTML(bebida[0], mainDiv);
+            drinkToHTML(bebida[0], mainDiv, consumo.Fecha);
+            
         }
     }
 }
 
-function drinkToHTML(bebida, mainDiv){
+function drinkToHTML(bebida, mainDiv, fechaConsumo){
     console.log(bebida);
 
     let divCol = document.createElement('div');
@@ -214,7 +218,8 @@ function drinkToHTML(bebida, mainDiv){
 
     let divBody = document.createElement('div');
     divBody.classList.add("media-body");
-    divBody.innerHTML = `<b>${bebida.Nombre}</b> <br>`;
+    divBody.innerHTML = `<b>${bebida.Nombre}</b> <br>
+                        <p>Fecha de Consumo: ${fechaConsumo}`;
 
     let divButton = document.createElement('div');
     divButton.classList.add("media-right");

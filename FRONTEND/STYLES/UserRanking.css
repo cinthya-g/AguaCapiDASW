@@ -107,15 +107,15 @@ body {
     border-bottom: 1px solid #AFAFAF;
   }
   
-  .rowRanking:nth-child(2) {
+  .rowRanking:nth-child(1) {
     background: #2cb59a;
   }
   
-  .rowRanking:nth-child(3) {
+  .rowRanking:nth-child(2) {
     background: #58d4bc;
   }
   
-  .rowRanking:nth-child(4) {
+  .rowRanking:nth-child(3) {
     background: #90f1de;
   }
   .nameRanking {
@@ -137,6 +137,7 @@ body {
   }
   .rounded-circle-Ranking {
     width: 90px;
+    height: 90px;
 }
 .fotoUsuarioRanking {
     position: relative;
@@ -203,5 +204,17 @@ body {
     width: 19%;
     position: relative;
     display: inline-block;
+}
+
+#noTopUsers {
+  text-align: center;
+  color: #565758;
+  margin: auto;
+  justify-content: center;
+}
+
+#searchingAnimation {
+  margin-left: 39%;
+  margin-top: 2%;
 }
 

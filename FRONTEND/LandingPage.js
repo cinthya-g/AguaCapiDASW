@@ -8,6 +8,7 @@ let defaultAdded = {};
 
 
 getUserData(1);
+updateTodayDrinks();
 
 function showCalculatingAnimation() {
     console.log("Calculando...");
@@ -57,7 +58,7 @@ function metaObjetivo(usuario) {
 function metaDiaria(usuario) {
     return `
     <div class="media-body align-self-center">
-    <p class="idTitle">HAS CONSUMIDO: </p>
+    <p class="idTitle">PROGRESO DE HOY: </p>
     <p id="goalDigit1">${usuario.Meta} ml</p>
 
   </div>`;
@@ -68,6 +69,7 @@ function actualizarDivsMeta(usuario) {
     HasConsumido.innerHTML = metaDiaria(usuario);
     Objetivo.innerHTML = metaObjetivo(usuario);
 }
+
 
 // Guardar el consumo default
 let saveDefaultConsumption = document.getElementById('BotonRegistrarDefault');
@@ -304,8 +306,62 @@ calculateMetaButton.addEventListener("click", function() {
     }
     });
 
+// Actualizar las bebidas añadidas de hoy
+// GET /api/users/gettodayliquids?idUsuario=###&fecha=####
+function updateTodayDrinks() {
+    // obtener string de fecha de hoy
+    let hoy = new Date().toJSON().slice(0,10);
 
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', url+'gettodayliquids?idUsuario='+getIDFromToken()+'&fecha='+hoy);
+    xhr.setRequestHeader("x-user-token", localStorage.getItem("token"));
+    xhr.send();
+    
+    xhr.onload = function() {
+        if(xhr.status == 500) {
+            alert(xhr.status + ": algo sucedió con Mongo...");
+        }
+        if(xhr.status == 200) {
+            //alert(xhr.status + ": no hay bebidas registradas hoy");
+            let sample = {
+                NombreBebida: "¡Ingresa tu primera bebida de hoy!",
+                Cantidad: 0,
+                URL: "./IMAGES/DRINKS/default.png"
+            };
+            let sampleArr = [];
+            sampleArr.push(sample);
+            console.log(sampleArr);
+            drinkCardsContainer.innerHTML = drinkCardsToHTML(sampleArr);
 
+        }
+        if(xhr.status == 201) {
+            let todayDrinks = JSON.parse(xhr.response);
+            console.log(todayDrinks);
+            drinkCardsContainer.innerHTML = drinkCardsToHTML(todayDrinks);
+
+        }
+    }
+}
+
+function drinkCardsToHTML(todayDrinks) {
+    let html = '';
+    for(let i = 0; i < todayDrinks.length; i++) {
+        let drink = todayDrinks[i];
+        html += `
+        <div class="col-xs-1-12">
+            <div class="card align-self-center">
+            <img class="card-img-top" src="${drink.URL}">
+            <div class="card-body">
+                <h3 class="card-title" style="text-align:center">${drink.NombreBebida}</h3>
+                <p class="card-text" style="text-align:center">${drink.Cantidad} ml</p>
+            </div>
+            </div>
+        </div>`;
+    }
+    
+    return html;
+
+}
 
 
 // Mostrar datos del usuario en el div de usuario
@@ -334,6 +390,9 @@ function userCardToHTML(currentUser) {
         </div>`;
 }
 
+
+
+// Trae los datos del usuario loggeado
 function getUserData(priority) {
     
         let xhr =  new XMLHttpRequest();
@@ -357,6 +416,7 @@ function getUserData(priority) {
                     console.log("Entró a actualizar todo");
                     userCard.innerHTML = userCardToHTML(usuario);
                     actualizarDivsMeta(usuario);
+                    updateTodayDrinks();
                 }
                 // Solo actualizar divs de meta
                 if(priority == 2) {
@@ -365,10 +425,9 @@ function getUserData(priority) {
 
             }
         }
-    
-
-
 }
+
+
 
 
 

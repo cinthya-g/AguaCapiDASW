@@ -274,3 +274,23 @@ x-user-token: ber6MNVz13-63885d971b9308f02883b299
 {
     "IDUsuario": "63885d971b9308f02883b299"
 }
+
+// Conseguir los consumos de un día determinado de un usuario
+###
+GET http://localhost:3000/api/users/gettodayliquids?idUsuario=63892b3ed42e76ff1065c7eb&fecha=2022-12-03
+content-type: application/json
+x-user-token: FA810NBF2N-63892b3ed42e76ff1065c7eb
+
+
+// Conseguir los consumos de un día determinado de un usuario
+###
+GET http://localhost:3000/api/users/gettodayliquids?idUsuario=63892b3ed42e76ff1065c7eb&fecha=2022-12-03
+content-type: application/json
+x-user-token: FA810NBF2N-63892b3ed42e76ff1065c7eb
+
+
+// Traer usuarios con más consumos hoy
+###
+GET http://localhost:3000/api/users/ranking
+content-type: application/json
+x-user-token: FA810NBF2N-63892b3ed42e76ff1065c7eb

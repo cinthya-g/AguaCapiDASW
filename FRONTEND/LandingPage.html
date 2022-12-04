@@ -66,12 +66,13 @@
   <hr id="divisor"class="row col-12">
 
   <!-- Listado de bebidas añadidas por el usuario -->
-  <p class="subtitle">Bebidas añadidas recientemente:</p>
+  <p class="subtitle">Bebidas añadidas hoy:</p>
   
   <div class="row mt-4 drinkCards">
     
-    <div class="row">
+    <div id="drinkCardsContainer" class="row">
 
+      <!--
       <div class="col-xs-1-12">
         <div class="card align-self-center">
           <img class="card-img-top" src="./IMAGES/DRINKS/te.jpg">
@@ -81,36 +82,8 @@
           </div>
         </div>
       </div>
-      
-      <div class="col-xs-1-12">
-        <div class="card align-self-center">
-          <img class="card-img-top" src="./IMAGES/DRINKS/agua.jpg">
-          <div class="card-body">
-            <h3 class="card-title" style="text-align:center">Agua</h3>
-            <p class="card-text" style="text-align:center">700ml</p>
-          </div>
-        </div>
-      </div>
+    -->
 
-      <div class="col-xs-1-12">
-        <div class="card align-self-center">
-          <img class="card-img-top" src="./IMAGES/DRINKS/cafe.jpg">
-          <div class="card-body">
-            <h3 class="card-title" style="text-align:center">Café</h3>
-            <p class="card-text" style="text-align:center">300ml</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-xs-1-12">
-        <div class="card align-self-center">
-          <img class="card-img-top" src="./IMAGES/DRINKS/jugo.jpg">
-          <div class="card-body">
-            <h3 class="card-title" style="text-align:center">Mamarindo</h3>
-            <p class="card-text" style="text-align:center">700ml</p>
-          </div>
-        </div>
-      </div>
 
     </div>
     
@@ -287,7 +260,7 @@
             <input id="nombreBebida" class="text" placeholder="E.j. Malteada">
             <br><br>
             <label>Cantidad (10 - 2000 ml):</label><br>
-            <input id="cantidadBebida" class="number" required placeholder="250ml" min="10" max="2000">
+            <input id="cantidadBebida" class="number" required placeholder="E.j. 250" min="10" max="2000">
             <br><br>
             <label>URL de imagen (opcional):</label><br>
             <input id="urlBebida" class="text" placeholder="https://freephotos.com/cappuccino.jpg" size="40">
